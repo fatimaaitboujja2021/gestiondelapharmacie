@@ -12,8 +12,7 @@ public class Produit {
     private String libelle;
     private String type;
     private String  ref;
-     @ManyToMany
-    private List<Magasin> magasin;
+
 
     public Long getId() {
         return id;
@@ -63,11 +62,11 @@ public class Produit {
         this.ref = ref;
     }
 
-    public List<Magasin> getMagasin() {
+   /* public List<Magasin> getMagasin() {
         return magasin;
     }
 
     public void setMagasin(List<Magasin> magasin) {
         this.magasin = magasin;
-    }
+    }*/
 }

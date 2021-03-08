@@ -9,9 +9,19 @@ public class VenteProduit {
     private long id ;
     @ManyToOne
     private Produit produit;
+    @ManyToOne
+    private Vente vente;
     private double qte;
     @ManyToOne
     private Magasin magasin;
+
+    public Vente getVente() {
+        return vente;
+    }
+
+    public void setVente(Vente vente) {
+        this.vente = vente;
+    }
 
     public long getId() {
         return id;

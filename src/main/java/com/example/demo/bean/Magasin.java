@@ -11,12 +11,13 @@ public class Magasin {
     private Long id;
     private String reference;
     private String adresse;
+@OneToMany
+private List<Stock> stock;
     @ManyToOne
     private Pharmacie pharmacie;
-    @ManyToMany
-    private List<Produit> produitList;
     @ManyToOne
     private Rue rue;
+
 
     public Rue getRue() {
         return rue;
@@ -58,11 +59,4 @@ public class Magasin {
         this.pharmacie = pharmacie;
     }
 
-    public List<Produit> getProduitList() {
-        return produitList;
-    }
-
-    public void setProduitList(List<Produit> produitList) {
-        this.produitList = produitList;
-    }
 }

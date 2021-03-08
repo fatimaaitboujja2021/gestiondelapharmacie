@@ -24,13 +24,7 @@ public class ProduitService {
         public int deleteByRef(String refProduit) {
             return produitDao.deleteByRef(refProduit);
         }
-    public List <Produit> findByMagasinReference(String refMagasin) {
-        return produitDao.findByMagasinReference(refMagasin);
-    }
 
-    public Produit findByMagasinReferenceAndRef(String refMagasin, String refProduit) {
-        return produitDao.findByMagasinReferenceAndRef(refMagasin, refProduit);
-    }
 
     public Produit findByLibelle(String libelle) {
         return produitDao.findByLibelle(libelle);
@@ -53,9 +47,6 @@ public class ProduitService {
         return produitDao.findAll();
     }
 
-    public int deleteByMagasinReferenceAndRef(String refMagasin, String refProduit) {
-        return produitDao.deleteByMagasinReferenceAndRef(refMagasin, refProduit);
-    }
 
     @Autowired
     private ProduitDao produitDao;

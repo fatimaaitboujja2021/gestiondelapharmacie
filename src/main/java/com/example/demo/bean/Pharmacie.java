@@ -1,9 +1,7 @@
 package com.example.demo.bean;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Pharmacie {
@@ -12,6 +10,16 @@ public class Pharmacie {
     private Long id;
     private String refrence;
     private String libelle;
+    @ManyToOne
+    private Rue rue;
+
+    public Rue getRue() {
+        return rue;
+    }
+
+    public void setRue(Rue rue) {
+        this.rue = rue;
+    }
 
     public Long getId() {
         return id;

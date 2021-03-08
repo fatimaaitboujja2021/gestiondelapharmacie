@@ -60,7 +60,9 @@ else{
     }
 
     public int deleteByReference(String ref) {
-        return magasinDao.deleteByReference(ref);
+
+    return stockService.deleteByMagasinReference(ref);
+        
     }
 
     public int deleteByAdresse(String adresse) {
@@ -77,6 +79,8 @@ else{
 
     @Autowired
     private RueService rueService;
+    @Autowired
+    private StockService stockService;
     @Autowired
     private MagasinDao magasinDao;
     @Autowired

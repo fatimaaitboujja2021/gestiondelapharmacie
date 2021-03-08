@@ -32,10 +32,7 @@ public class ProduitProvided {
         return produitService.findByRef(ref);
     }
 
-    @GetMapping("/refmp/{refmp}")
-    public List<Produit> findByMagasinReference(@PathVariable("ref") String ref) {
-        return produitService.findByMagasinReference(ref);
-    }
+
 
     @GetMapping("/libelle/{libelle}")
 
