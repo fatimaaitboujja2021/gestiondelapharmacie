@@ -34,10 +34,13 @@ public class MagasinProvided {
     public int deleteByPharmacieRefrence(@PathVariable String ref) {
         return magasinService.deleteByPharmacieRefrence(ref);
     }
-
     @GetMapping("/refp/{refp}")
     public List<Magasin> findByPharmacieRefrence(@PathVariable String ref) {
         return magasinService.findByPharmacieRefrence(ref);
+    }
+    @GetMapping("/refma/{refma}")
+    public List<Magasin> chercherMagasinparAdresse( @PathVariable String mc) {
+        return magasinService.chercherMagasinparAdresse(mc);
     }
 
     @GetMapping("/adresse/{adresse}")
@@ -46,9 +49,9 @@ public class MagasinProvided {
     }
 
     @GetMapping("/Rue/Code/{Code}")
-public List<Magasin> findByRueCode(@PathVariable String Code){
+    public List<Magasin> findByRueCode(@PathVariable String Code){
         return magasinService.findByRueCode(Code);
-}
+    }
 
     @GetMapping("/")
     public List<Magasin> findAll() {

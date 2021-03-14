@@ -11,8 +11,8 @@ public class Magasin {
     private Long id;
     private String reference;
     private String adresse;
-@OneToMany
-private List<Stock> stock;
+    /*@OneToOne
+    private Stock stock;*/
     @ManyToOne
     private Pharmacie pharmacie;
     @ManyToOne

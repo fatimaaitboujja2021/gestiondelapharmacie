@@ -20,8 +20,6 @@ public class ProduitProvided {
         return produitService.save(produit);
     }
 
-
-
     @DeleteMapping("/refdpr/{refdpr}")
     public int deleteByRef(@PathVariable String ref) {
         return produitService.deleteByRef(ref);

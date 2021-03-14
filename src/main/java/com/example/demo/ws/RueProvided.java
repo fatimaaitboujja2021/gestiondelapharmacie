@@ -18,7 +18,7 @@ public class RueProvided {
     public int save(@RequestBody Rue rue) {
         return rueService.save(rue);
     }
-@GetMapping("/libelle/{libelle}")
+    @GetMapping("/libelle/{libelle}")
     public Rue findByLibelle(@PathVariable String libelle) {
         return rueService.findByLibelle(libelle);
     }
@@ -30,11 +30,11 @@ public class RueProvided {
     public int deleteByLibelle(@PathVariable String libelle) {
         return rueService.deleteByLibelle(libelle);
     }
-@GetMapping("/code/{code}")
+    @GetMapping("/code/{code}")
     public  Rue findByCode(@PathVariable String code) {
         return rueService.findByCode(code);
     }
-@GetMapping("/")
+    @GetMapping("/")
     public List<Rue> findAll() {
         return rueService.findAll();
     }

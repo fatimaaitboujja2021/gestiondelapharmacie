@@ -18,12 +18,12 @@ public class ProduitService {
     }
 
     public Produit findByRef(String refProduit) {
-            return produitDao.findByRef(refProduit);
-        }
-        @Transactional
-        public int deleteByRef(String refProduit) {
-            return produitDao.deleteByRef(refProduit);
-        }
+        return produitDao.findByRef(refProduit);
+    }
+    @Transactional
+    public int deleteByRef(String refProduit) {
+        return produitDao.deleteByRef(refProduit);
+    }
 
 
     public Produit findByLibelle(String libelle) {
@@ -38,7 +38,7 @@ public class ProduitService {
     public int deleteByLibelle(String libelle) {
         return produitDao.deleteByLibelle(libelle);
     }
-
+    @Transactional
     public void deleteById(Long aLong) {
         produitDao.deleteById(aLong);
     }

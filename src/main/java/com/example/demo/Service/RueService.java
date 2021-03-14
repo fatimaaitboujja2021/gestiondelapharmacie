@@ -11,24 +11,24 @@ import java.util.List;
 @Service
 public class RueService {
     public int save(Rue rue){
-    if(findByCode(rue.getCode())!=null)
-    return -1;
-    else if(findByLibelle(rue.getLibelle())!=null)
-        return -2;
+        if(findByCode(rue.getCode())!=null)
+            return -1;
+        else if(findByLibelle(rue.getLibelle())!=null)
+            return -2;
 
-    else rueDao.save(rue);
+        else rueDao.save(rue);
 
-return 1;
+        return 1;
     }
 
     public Rue findByLibelle(String libelle) {
         return rueDao.findByLibelle(libelle);
     }
-@Transactional
+    @Transactional
     public int deleteByCode(String code) {
         int resultmagasin=magasinService.deleteByRueCode(code);
         int resulterue=rueDao.deleteByCode(code);
-    return resulterue+resultmagasin;
+        return resulterue+resultmagasin;
     }
     @Transactional
     public int deleteByLibelle(String libelle) {

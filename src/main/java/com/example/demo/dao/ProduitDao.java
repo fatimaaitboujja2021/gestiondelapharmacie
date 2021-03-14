@@ -11,8 +11,8 @@ ProduitDao extends JpaRepository <Produit,Long> {
     Produit findByLibelle(String Libelle);
     Produit findByLibelleAndType(String Libelle,String type);
     Produit findByRef(String refProduit);
- //   List<Produit> findByMagasinReference(String magasinreference);
-   // Produit findByMagasinReferenceAndRef(String refMagasin,String refProduit);
+    //   List<Produit> findByMagasinReference(String magasinreference);
+    // Produit findByMagasinReferenceAndRef(String refMagasin,String refProduit);
     List <Produit> findAll();
     //int deleteByMagasinReferenceAndRef(String refMagasin,String refProduit);
     int deleteByRef(String refProduit);
