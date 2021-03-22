@@ -5,9 +5,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface AchatDao extends JpaRepository<Achat,Long> {
-    List<Achat> findByRef(String ref);
-    List<Achat> deleteByRef(String ref);
-
-   // List<Achat> findByRefAndRefMagasin(String ref,String refMagasin);
-    List<Achat> findByRefAndRefFournisseur(String ref,String refFournisseur);
+    Achat findByRef(String Ref);
+    int deleteByRef(String Ref);
+    Achat findByRefAndFournisseurRef(String Ref,String RefFournisseur);
+    int deleteByRefAndFournisseurRef(String Ref,String RefFournisseur);
 }
