@@ -1,6 +1,9 @@
 package com.example.demo.Service;
 
 import com.example.demo.bean.Achatproduit;
+import com.example.demo.bean.Magasin;
+import com.example.demo.bean.Produit;
+import com.example.demo.bean.Stock;
 import com.example.demo.dao.AchatproduitDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +41,14 @@ public class AchatproduitService {
                 achatproduitDao.save(achatproduit);
                 return 1;
     }
+    /*public int acheteproduit(Produit produit, Magasin magasin, double qte){
+        List<Fournisseur> fournisseur = fournisseurDao.findByProduitRef(produit.getRef());
+        Stock stock = stockDao.findByMagasinReferenceAndProduitRef(magasin.getReference(),produit.getRef());
+        for(Fournisseur curseur:fournisseur){
 
+        }
+        return 0;
+    }*/
     @Autowired
     private AchatproduitDao achatproduitDao;
 }

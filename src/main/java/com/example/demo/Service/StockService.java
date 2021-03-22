@@ -2,8 +2,6 @@ package com.example.demo.Service;
 import com.example.demo.bean.Magasin;
 import com.example.demo.bean.Produit;
 import com.example.demo.bean.Stock;
-import com.example.demo.dao.MagasinDao;
-import com.example.demo.dao.ProduitDao;
 import com.example.demo.dao.StockDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,14 +13,16 @@ public class StockService {
     @Autowired
     private StockDao stockDao;
     @Autowired
-    private ProduitDao produitDao;
+    private ProduitService produitService;
     @Autowired
-    private MagasinDao magasinDao;
+    private MagasinService magasinService;
     @Autowired
     private AchatproduitService achatproduitService;
     public List<Stock> findByProduitRef(String refProduit) {
         return stockDao.findByProduitRef(refProduit);
     }
+    //recherche multi critere recherche de ref
+    //recherche qte stock max min =redline ref
 
     public List<Stock> findByMagasinReference(String reference) {
         return stockDao.findByMagasinReference(reference);
@@ -38,7 +38,7 @@ public class StockService {
     @Transactional
     public int deleteByMagasinReference(String referenceMagasin) {
         List<Stock> stock =findByMagasinReference(referenceMagasin);
-        List<Magasin>magasin= magasinDao.findByPharmacieRefrence(magasinDao.findByReference(referenceMagasin).getPharmacie().getRefrence());
+        List<Magasin>magasin= magasinService.findByPharmacieRefrence(magasinService.findByReference(referenceMagasin).getPharmacie().getRefrence());
         if (stock != null) {
             for(Stock curseur:stock){
                 if (curseur.getProduit().getQteTotalStock() > 0) {
@@ -49,12 +49,12 @@ public class StockService {
                             curseur.setQte(0);
                             break;
                         }
-                        produitDao.deleteByRef(curseur.getProduit().getRef());
+                        produitService.deleteByRef(curseur.getProduit().getRef());
                     }
                     return 1;
                 }
             }
-            magasinDao.deleteByReference(referenceMagasin);
+            magasinService.deleteByReference(referenceMagasin);
             return stockDao.deleteByMagasinReference(referenceMagasin);
         }
         else return -2;
@@ -64,7 +64,7 @@ public class StockService {
     @Transactional
     public int deleteByProduitRefAndMagasinReference(String refProduit, String referenceMagasin) {
         Stock stock=findByMagasinReferenceAndProduitRef(referenceMagasin, refProduit);
-        List<Magasin> magasins=magasinDao.findByPharmacieRefrence(magasinDao.findByReference(referenceMagasin).getPharmacie().getRefrence());
+        List<Magasin> magasins=magasinService.findByPharmacieRefrence(magasinService.findByReference(referenceMagasin).getPharmacie().getRefrence());
         if (stock.getQte() >0){
             for (Magasin curseur : magasins) {
                 Stock findMagProd=findByMagasinReferenceAndProduitRef(curseur.getReference(),refProduit);
@@ -75,14 +75,14 @@ public class StockService {
                 }
             }
         }
-        produitDao.deleteByRef(refProduit);
-        magasinDao.deleteByReference(referenceMagasin);
+        produitService.deleteByRef(refProduit);
+        magasinService.deleteByReference(referenceMagasin);
         return deleteByProduitRefAndMagasinReference(refProduit, referenceMagasin);
     }
 
     public int savestockage(Stock stockage) {
-        Produit produit = produitDao.findByRef(stockage.getProduit().getRef());
-        Magasin magasin = magasinDao.findByReference(stockage.getMagasin().getReference());
+        Produit produit = produitService.findByRef(stockage.getProduit().getRef());
+        Magasin magasin = magasinService.findByReference(stockage.getMagasin().getReference());
         Stock stockBean = findByMagasinReferenceAndProduitRef(stockage.getProduit().getRef(), stockage.getMagasin().getReference());
 
         if(stockBean==null){
@@ -99,13 +99,20 @@ public class StockService {
         }
     }
     public void checkredLine(Stock stock){
-        Produit produit =produitDao.findByRef(stock.getProduit().getRef());
-        Magasin magasin = magasinDao.findByReference(stock.getMagasin().getReference());
+        Produit produit =produitService.findByRef(stock.getProduit().getRef());
+        Magasin magasin = magasinService.findByReference(stock.getMagasin().getReference());
         double redline= produit.getQteSeuilAlert();
         if(redline>stock.getQte()){
             double qte=redline*3;
             achatproduitService.acheteproduit(produit,magasin,qte);
         }
+    }
+    public int soustractionDeLaquantite(String refMagasin,String refproduit){
+        Stock stock =findByMagasinReferenceAndProduitRef(refMagasin,refproduit);
+        if(stock==null){
+            return -2;
+        }
+
     }
 
 }

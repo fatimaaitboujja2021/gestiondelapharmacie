@@ -13,7 +13,7 @@ public class Stock implements Serializable {
     @ManyToOne
     private Magasin magasin;
     private double qte;
-    private double qteDeffectueuse;
+    private double qteDeffectueuse;//methode
 
     public Long getId() {
         return id;

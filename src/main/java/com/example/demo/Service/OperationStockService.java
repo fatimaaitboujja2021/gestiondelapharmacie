@@ -4,10 +4,7 @@ import com.example.demo.bean.Magasin;
 import com.example.demo.bean.OperationStock;
 import com.example.demo.bean.Produit;
 import com.example.demo.bean.Stock;
-import com.example.demo.dao.MagasinDao;
 import com.example.demo.dao.OperationStockDao;
-import com.example.demo.dao.ProduitDao;
-import com.example.demo.dao.StockDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,11 +14,11 @@ public class OperationStockService {
     @Autowired
     private OperationStockDao operationStockDao;
     @Autowired
-    private StockDao stokage;
+    private StockService stokage;
     @Autowired
-    private MagasinDao magasinDao;
+    private MagasinService magasinService;
     @Autowired
-    private ProduitDao produitDao;
+    private ProduitService produitService;
     public List<OperationStock> findByMagasinDestinationReference(String magasindestinationreference) {
         return operationStockDao.findByMagasinDestinationReference(magasindestinationreference);
     }
@@ -49,30 +46,36 @@ public class OperationStockService {
     public void deleteById(Long id) {
         operationStockDao.deleteById(id);
     }
+    public int transferer(String refSource, String refDestination, String refProduit, double qte) {
+        Magasin magasinSource = magasinService.findByReference(refSource);
+        Magasin magasinDestination = magasinService.findByReference(refDestination);
+        Produit produit = produitService.findByRef(refProduit);
 
-    public int transporterleStock(String refmagasinSource, String refmagasinDestination, double qte, String refproduit){
-        Stock  magasinSource=stokage.findByMagasinReferenceAndProduitRef(refmagasinSource,refproduit);
-        Stock magasinDestination=stokage.findByMagasinReferenceAndProduitRef(refmagasinDestination,refproduit);
-        Magasin magasinsource=magasinDao.findByReference(refmagasinSource);
-        Magasin magasindestination=magasinDao.findByReference(refmagasinDestination);
-        Produit produit=produitDao.findByRef(refproduit);
-        double produitqtesrc=magasinSource.getQte();
-        double produitqtedes =magasinDestination.getQte();
-        if(magasinDestination!=null && magasinSource!=null && produitqtesrc>qte){
-            magasinSource.setQte(produitqtesrc-qte);
-            magasinDestination.setQte(produitqtedes+qte);
-            OperationStock transport=new OperationStock();
-            transport.setQte(qte);
-            transport.setDescrition("transport "+qte+" de "+refproduit+" de magasin "+refmagasinSource+" a le magasin "+refmagasinDestination);
-            transport.setProduit(produit);
-            transport.setMagasinDestination(magasindestination);
-            transport.setMagasinSource(magasinsource);
-            operationStockDao.save(transport);
-            return 1;
+        if (produit == null || magasinSource == null || magasinDestination == null)
+            return -1;
+
+        Stock stockSource = stokage.findByMagasinReferenceAndProduitRef(refSource, refProduit);
+
+        if (stockSource == null) {
+            return -2;
+        } else {
+            Stock stockDestination = stokage.findByMagasinReferenceAndProduitRef(refSource, refProduit);
+            if (stockDestination == null) {
+
+                Stock myStock = new Stock();
+                myStock.setMagasin(magasinDestination);
+                myStock.setProduit(produit);
+                myStock.setQte(qte);
+                stokage.savestockage(myStock);
+                return 1;
+            } else {
+                stockDestination.setQte(stockDestination.getQte() + qte);
+                stokage.savestockage(stockDestination);
+                return 2;
+            }
+
         }
-        else return -2;
     }
-
 
 
 }
