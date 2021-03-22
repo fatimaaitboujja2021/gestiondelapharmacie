@@ -7,8 +7,8 @@ import java.util.List;
 @Repository
 public interface AchatproduitDao extends JpaRepository<Achatproduit,Long> {
     List <Achatproduit> findByProduitRef(String refProduit);
-    int deleteByProduitRef(String refProduit);
-    int deleteByProduitRefAndAchatRef(String refProduit,String refAchat);
-    Achatproduit findByProduitRefAndAchatRef(String refProduit, String refAchat);
+    List <Achatproduit> deleteByProduitRef(String refProduit);
+    List <Achatproduit> deleteByProduitRefAndAchatRef(String refProduit,String refAchat);
+    List<Achatproduit> findByProduitRefAndAchatRef(String refProduit, String refAchat);
     List<Achatproduit> findByProduitRefAndMagasinReference(String refProduit, String refMagasin);
 }
