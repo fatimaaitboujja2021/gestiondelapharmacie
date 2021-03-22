@@ -11,4 +11,5 @@ public interface AchatproduitDao extends JpaRepository<Achatproduit,Long> {
     List <Achatproduit> deleteByProduitRefAndAchatRef(String refProduit,String refAchat);
     List<Achatproduit> findByProduitRefAndAchatRef(String refProduit, String refAchat);
     List<Achatproduit> findByProduitRefAndMagasinReference(String refProduit, String refMagasin);
+
 }
