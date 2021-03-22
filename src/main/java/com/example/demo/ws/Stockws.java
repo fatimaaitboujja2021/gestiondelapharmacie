@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("Stocck-api/StocckBean")
+@RequestMapping("Stock/StocckBean")
 public class Stockws {
     @Autowired
     StockService stockService;
@@ -16,11 +16,11 @@ public class Stockws {
     public List<Stock> findByProduitRef(@PathVariable String refProduit) {
         return stockService.findByProduitRef(refProduit);
     }
-    @GetMapping("/refMagasin/{refMagasin}")
+    @GetMapping("/reference/{reference}")
     public List<Stock> findByMagasinReference(String reference) {
         return stockService.findByMagasinReference(reference);
     }
-    @GetMapping("/refmag/{refmag}")
+    @GetMapping("/reference/{reference}/refProduit/{refProduit}")
     public Stock findByMagasinReferenceAndProduitRef(@PathVariable String reference, @PathVariable String refProduit) {
         return stockService.findByMagasinReferenceAndProduitRef(reference, refProduit);
     }
@@ -28,11 +28,11 @@ public class Stockws {
     public List<Stock> findAll() {
         return stockService.findAll();
     }
-    @DeleteMapping("/refMagasin/{refMagasin}")
+    @DeleteMapping("/reference/{reference}")
     public int deleteByMagasinReference(@PathVariable String reference) {
         return stockService.deleteByMagasinReference(reference);
     }
-    @DeleteMapping("/refProduitandmagasin/{refProduitandmagasin}")
+    @DeleteMapping("/refProduit/{refProduit}/reference/{reference}")
     public int deleteByProduitRefAndMagasinReference(@PathVariable String refProduit,@PathVariable String reference) {
         return stockService.deleteByProduitRefAndMagasinReference(refProduit, reference);
     }

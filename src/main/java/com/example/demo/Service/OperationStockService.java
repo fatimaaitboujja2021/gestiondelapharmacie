@@ -51,16 +51,16 @@ public class OperationStockService {
     }
 
     public int transporterleStock(String refmagasinSource, String refmagasinDestination, double qte, String refproduit){
-       Stock  magasinSource=stokage.findByMagasinReferenceAndProduitRef(refmagasinSource,refproduit);
-       Stock magasinDestination=stokage.findByMagasinReferenceAndProduitRef(refmagasinDestination,refproduit);
-       Magasin magasinsource=magasinDao.findByReference(refmagasinSource);
-       Magasin magasindestination=magasinDao.findByReference(refmagasinDestination);
-       Produit produit=produitDao.findByRef(refproduit);
-       double produitqtesrc=magasinSource.getQte();
-       double produitqtedes =magasinDestination.getQte();
-       if(magasinDestination!=null && magasinSource!=null && produitqtesrc>qte){
-           magasinSource.setQte(produitqtesrc-qte);
-           magasinDestination.setQte(produitqtedes+qte);
+        Stock  magasinSource=stokage.findByMagasinReferenceAndProduitRef(refmagasinSource,refproduit);
+        Stock magasinDestination=stokage.findByMagasinReferenceAndProduitRef(refmagasinDestination,refproduit);
+        Magasin magasinsource=magasinDao.findByReference(refmagasinSource);
+        Magasin magasindestination=magasinDao.findByReference(refmagasinDestination);
+        Produit produit=produitDao.findByRef(refproduit);
+        double produitqtesrc=magasinSource.getQte();
+        double produitqtedes =magasinDestination.getQte();
+        if(magasinDestination!=null && magasinSource!=null && produitqtesrc>qte){
+            magasinSource.setQte(produitqtesrc-qte);
+            magasinDestination.setQte(produitqtedes+qte);
             OperationStock transport=new OperationStock();
             transport.setQte(qte);
             transport.setDescrition("transport "+qte+" de "+refproduit+" de magasin "+refmagasinSource+" a le magasin "+refmagasinDestination);
@@ -68,9 +68,9 @@ public class OperationStockService {
             transport.setMagasinDestination(magasindestination);
             transport.setMagasinSource(magasinsource);
             operationStockDao.save(transport);
-           return 1;
-       }
-      else return -2;
+            return 1;
+        }
+        else return -2;
     }
 
 
