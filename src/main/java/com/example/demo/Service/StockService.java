@@ -19,8 +19,7 @@ public class StockService {
     @Autowired
     private MagasinDao magasinDao;
     @Autowired
-    private OperationStockService operationStockService;
-
+    private AchatproduitService achatproduitService;
     public List<Stock> findByProduitRef(String refProduit) {
         return stockDao.findByProduitRef(refProduit);
     }
@@ -41,11 +40,11 @@ public class StockService {
         List<Stock> stock =findByMagasinReference(referenceMagasin);
         List<Magasin>magasin= magasinDao.findByPharmacieRefrence(magasinDao.findByReference(referenceMagasin).getPharmacie().getRefrence());
         if (stock != null) {
-           for(Stock curseur:stock){
+            for(Stock curseur:stock){
                 if (curseur.getProduit().getQteTotalStock() > 0) {
                     for (Magasin curser : magasin) {
                         Stock findMagProd=findByMagasinReferenceAndProduitRef(curser.getReference(),curseur.getProduit().getRef());
-                        if (findMagProd.getQte() >= 0 && referenceMagasin != curser.getReference()) {
+                        if (findMagProd.getQte() >= 0 && !referenceMagasin.equals(curser.getReference())) {
                             findMagProd.setQte(findMagProd.getQte()+curseur.getQte());
                             curseur.setQte(0);
                             break;
@@ -57,7 +56,7 @@ public class StockService {
             }
             magasinDao.deleteByReference(referenceMagasin);
             return stockDao.deleteByMagasinReference(referenceMagasin);
-    }
+        }
         else return -2;
 
     }
@@ -69,7 +68,7 @@ public class StockService {
         if (stock.getQte() >0){
             for (Magasin curseur : magasins) {
                 Stock findMagProd=findByMagasinReferenceAndProduitRef(curseur.getReference(),refProduit);
-                if (findMagProd.getQte() >= 0 && referenceMagasin != curseur.getReference()) {
+                if (findMagProd.getQte() >= 0 && !referenceMagasin.equals(curseur.getReference())) {
                     findMagProd.setQte(findMagProd.getQte()+stock.getQte());
                     stock.setQte(0);
                     break;
@@ -99,15 +98,14 @@ public class StockService {
             return 2;
         }
     }
-    public int checkredLine(String refmagasin,String refproduit){
-        Produit produit =produitDao.findByRef(refproduit);
-        Stock stock=findByMagasinReferenceAndProduitRef(refmagasin,refproduit);
+    public void checkredLine(Stock stock){
+        Produit produit =produitDao.findByRef(stock.getProduit().getRef());
+        Magasin magasin = magasinDao.findByReference(stock.getMagasin().getReference());
         double redline= produit.getQteSeuilAlert();
         if(redline>stock.getQte()){
-            //achat
-            return 1;
+            double qte=redline*3;
+            achatproduitService.acheteproduit(produit,magasin,qte);
         }
-        else return 0;
     }
 
 }
