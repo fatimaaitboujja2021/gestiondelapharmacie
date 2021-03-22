@@ -12,7 +12,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("pharmacie/magasin")
-public class MagasinProvided {
+public class
+MagasinProvided {
 
     @PostMapping("/")
     public int save(@RequestBody Magasin magasin) {
