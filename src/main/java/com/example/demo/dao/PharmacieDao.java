@@ -13,13 +13,13 @@ import java.util.List;
 @Repository
 public interface PharmacieDao extends JpaRepository<Pharmacie,Long> {
     Pharmacie findById(long id);
-    Pharmacie findByRefrence(String ref);
+    Pharmacie findByreference(String ref);
     @Query("select a from Pharmacie a where a.libelle like '%x%'")
     public List<Pharmacie> chercherPharmacieparLibelle(@Param("x") String motcle);
 
     List <Pharmacie> findByLibelle(String libelle);
-    Pharmacie findByLibelleAndRefrence(String libelle,String ref);
+    Pharmacie findByLibelleAndreference(String libelle,String ref);
     List <Pharmacie> findAll();
     void deleteById(long id);
-    int deleteByRefrence(String ref);
+    int deleteByreference(String ref);
 }

@@ -8,10 +8,20 @@ public class Pharmacie {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String refrence;
+    private String reference;
     private String libelle;
     @ManyToOne
     private Rue rue;
+    @OneToMany
+    private List<Magasin> magasin;
+
+    public List<Magasin> getMagasin() {
+        return magasin;
+    }
+
+    public void setMagasin(List<Magasin> magasin) {
+        this.magasin = magasin;
+    }
 
     public Rue getRue() {
         return rue;
@@ -29,12 +39,12 @@ public class Pharmacie {
         this.id = id;
     }
 
-    public String getRefrence() {
-        return refrence;
+    public String getReference() {
+        return reference;
     }
 
-    public void setRefrence(String refrence) {
-        this.refrence = refrence;
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 
     public String getLibelle() {

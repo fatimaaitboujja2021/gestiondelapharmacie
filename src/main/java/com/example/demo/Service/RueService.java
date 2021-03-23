@@ -1,9 +1,8 @@
 package com.example.demo.Service;
 
-import com.example.demo.dao.RueDao;
 import com.example.demo.bean.Rue;
+import com.example.demo.dao.RueDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
