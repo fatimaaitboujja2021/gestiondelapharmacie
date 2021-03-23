@@ -16,10 +16,10 @@ public interface MagasinDao extends JpaRepository<Magasin,Long> {
     Magasin findByReference(String Ref);
     @Query(value = "select a from Magasin a where a.adresse LIKE  '%x%' ")
     public List<Magasin> chercherMagasinparAdresse(@Param("x") String motcle);
-    Magasin findByReferenceAndPharmacieRefrence(String ref, String refrence);
-    List <Magasin> findByPharmacieRefrence(String refrence);
+    Magasin findByReferenceAndPharmacieReference(String ref, String Reference);
+    List <Magasin> findByPharmacieReference(String Reference);
     List<Magasin> findAll();
-    int deleteByPharmacieRefrence(String refrence);
+    int deleteByPharmacieReference(String Reference);
     int deleteByReference(String ref);
     int deleteByAdresse(String adresse);
     List<Magasin> findByRueCode(String Code);

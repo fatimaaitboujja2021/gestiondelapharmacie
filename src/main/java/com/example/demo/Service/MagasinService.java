@@ -4,6 +4,8 @@ package com.example.demo.Service;
 
 import com.example.demo.bean.*;
 import com.example.demo.dao.MagasinDao;
+import com.example.demo.Service.MagasinService;
+import com.example.demo.Service.RueService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,8 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.sun.tools.classfile.Attribute.Code;
+
 @Service
 public class MagasinService {
+
     public int save(Magasin magasin){
         if(findByReference(magasin.getReference())!=null){
             return -1;
@@ -105,7 +110,7 @@ public class MagasinService {
 
                 return 1;
             } else {
-                List<Magasin> magasinsource=magasinDao.findByPharmaciereference(refPharmacieSource);
+                List<Magasin> magasinsource=magasinDao.findByPharmacieReference(refPharmacieSource);
 
 
                     for (int i=0; i<magasinsource.size(); i++)
@@ -121,7 +126,7 @@ public class MagasinService {
     }
 
 
-    }
+
 
 
 
@@ -151,7 +156,7 @@ Magasin resultmagasin= magasinDao.de
         //}
         //return magasinDao.deleteByPharmaciereference(reference);
     //}
-
+    }
 
     @Transactional
     public int deleteByReference(String ref) {
@@ -185,7 +190,7 @@ Magasin resultmagasin= magasinDao.de
     private PharmacieService pharmacieService;
 
 
-}
 
+}
 
 
