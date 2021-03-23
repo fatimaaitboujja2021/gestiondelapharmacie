@@ -38,7 +38,7 @@ public class StockService {
     @Transactional
     public int deleteByMagasinReference(String referenceMagasin) {
         List<Stock> stock =findByMagasinReference(referenceMagasin);
-        List<Magasin>magasin= magasinDao.findByPharmacieRefrence(magasinDao.findByReference(referenceMagasin).getPharmacie().getRefrence());
+        List<Magasin>magasin= magasinDao.findByPharmacieReference(magasinDao.findByReference(referenceMagasin).getPharmacie().getReference());
         if (stock != null) {
             for(Stock curseur:stock){
                 if (curseur.getProduit().getQteTotalStock() > 0) {
@@ -64,7 +64,7 @@ public class StockService {
     @Transactional
     public int deleteByProduitRefAndMagasinReference(String refProduit, String referenceMagasin) {
         Stock stock=findByMagasinReferenceAndProduitRef(referenceMagasin, refProduit);
-        List<Magasin> magasins=magasinDao.findByPharmacieRefrence(magasinDao.findByReference(referenceMagasin).getPharmacie().getRefrence());
+        List<Magasin> magasins=magasinDao.findByPharmacieReference(magasinDao.findByReference(referenceMagasin).getPharmacie().getReference());
         if (stock.getQte() >0){
             for (Magasin curseur : magasins) {
                 Stock findMagProd=findByMagasinReferenceAndProduitRef(curseur.getReference(),refProduit);
@@ -104,7 +104,7 @@ public class StockService {
         double redline= produit.getQteSeuilAlert();
         if(redline>stock.getQte()){
             double qte=redline*3;
-            achatproduitService.acheteproduit(produit,magasin,qte);
+            //achatproduitService.acheteproduit(produit,magasin,qte);
         }
     }
 

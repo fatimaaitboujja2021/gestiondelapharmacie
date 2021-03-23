@@ -12,13 +12,20 @@ public class Magasin {
     private Long id;
     private String reference;
     private String adresse;
-    /*@OneToOne
-    private Stock stock;*/
+    @OneToOne
+    private Stock stock;
     @ManyToOne
     private Pharmacie pharmacie;
     @ManyToOne
     private Rue rue;
 
+    public Stock getStock() {
+        return stock;
+    }
+
+    public void setStock(Stock stock) {
+        this.stock = stock;
+    }
 
     public Rue getRue() {
         return rue;
