@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.sun.tools.classfile.Attribute.Code;
 
 @Service
 public class MagasinService {
@@ -27,7 +26,7 @@ public class MagasinService {
         if(rue==null){
             return -2;
         }
-        Pharmacie pharmacie = pharmacieService.findByreference(magasin.getPharmacie().getreference());
+        Pharmacie pharmacie = pharmacieService.findByreference(magasin.getPharmacie().getReference());
         magasin.setPharmacie(pharmacie);
         if(pharmacie==null){
             return -3;
@@ -49,11 +48,11 @@ public class MagasinService {
     }
 
     public Magasin findByReferenceAndPharmaciereference(String ref, String reference) {
-        return magasinDao.findByReferenceAndPharmaciereference(ref, reference);
+        return magasinDao.findByReferenceAndPharmacieReference(ref, reference);
     }
 
     public List<Magasin> findByPharmaciereference(String reference) {
-        return magasinDao.findByPharmaciereference(reference);
+        return magasinDao.findByPharmacieReference(reference);
     }
 
     public List<Magasin> chercherMagasinparAdresse(String mc) {
@@ -116,22 +115,45 @@ public class MagasinService {
                     for (int i=0; i<magasinsource.size(); i++)
                     {
                         Magasin magasin = magasinsource.get(i);
-                        magasinsource.setPharmacieReference(pharmacieDestination.getreference());                    }
+                        magasin.setPharmacie(pharmacieDestination);
+                        save(magasin);
+                    }
                 return 2;
             }
-                pharmacieService.save(pharmacieDestination);
-                
 
         }
     }
 
 
-
-
-
-
     @Transactional
-    public int deleteByPharmaciereference(String reference) {
+    public int deleteByPharmacieReference(String reference) {
+        Pharmacie pharmaciesource=pharmacieService.findByreference(reference);
+        List<Pharmacie> pharmaciedestination=pharmacieService.findAll();
+        if (pharmaciesource==null) {
+            return magasinDao.deleteByPharmacieReference(reference) ;
+        }
+        else{
+
+            for (Pharmacie Ph : pharmaciedestination )
+                {
+                    List<Magasin> magasinsource=magasinDao.findByPharmacieReference(pharmaciesource.getReference());
+
+                    for (Magasin Ms: magasinsource){
+
+                        List<Magasin> magasindestination=magasinDao.findByPharmacieReference(Ph.getReference());
+                    for (Magasin Md: magasindestination ){
+
+                        while (Ms.getReference()!=Md.getReference())
+
+                        transferer(pharmaciesource.getReference(),Ph.getReference());
+                }}}
+        }
+        return magasinDao.deleteByPharmacieReference(reference) ;
+
+    }
+
+    //@Transactional
+    //public int deleteByPharmaciereference(String reference) {
       /* List <Magasin> magasin=magasinDao.findByPharmaciereference(reference);
 
 
@@ -156,15 +178,19 @@ Magasin resultmagasin= magasinDao.de
         //}
         //return magasinDao.deleteByPharmaciereference(reference);
     //}
-    }
+    //}
 
     @Transactional
     public int deleteByReference(String ref) {
-            stockresult= stockService.deleteByMagasinReference(ref);
-
+             int stockresult= stockService.deleteByMagasinReference(ref);
+             int magasinresult =magasinDao.deleteByReference(ref);
+             return stockresult+magasinresult;
         }
     @Transactional
     public int deleteByAdresse(String adresse) {
+        //int stockresult= stockService.deleteByMagasinReference(magasin.get);
+        //int magasinresult =magasinDao.deleteByReference(ref);
+        //return stockresult+magasinresult;
         return magasinDao.deleteByAdresse(adresse);
     }
 

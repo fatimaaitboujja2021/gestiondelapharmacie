@@ -55,7 +55,7 @@ public class PharmacieService {
     }
 
     public int save(Pharmacie pharmacie) {
-        Pharmacie foundedPharmacie =findByreference(pharmacie.getreference());
+        Pharmacie foundedPharmacie =findByreference(pharmacie.getReference());
 
         if(foundedPharmacie != null){
             return -1;
