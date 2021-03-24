@@ -30,8 +30,8 @@ public class PharmacieService {
         return pharmacieDao.findByLibelle(libelle);
     }
 
-    public Pharmacie findByLibelleAndreference(String libelle, String ref) {
-        return pharmacieDao.findByLibelleAndreference(libelle, ref);
+    public Pharmacie findByLibelleAndReference(String libelle, String ref) {
+        return pharmacieDao.findByLibelleAndReference(libelle, ref);
     }
     public List<Pharmacie> chercherPharmacieparLibelle(String mc) {
         return pharmacieDao.chercherPharmacieparLibelle(mc);
@@ -48,7 +48,7 @@ public class PharmacieService {
 
     @Transactional
     public int deleteByreference(String ref) {
-        int resultmagasin=magasinService.deleteByPharmaciereference(ref);
+        int resultmagasin=magasinService.deleteByPharmacieReference(ref);
         int resultephamacie=pharmacieDao.deleteByreference(ref);
         return resultephamacie+resultmagasin;
 

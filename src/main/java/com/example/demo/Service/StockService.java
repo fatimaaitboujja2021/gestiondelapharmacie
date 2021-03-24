@@ -51,7 +51,7 @@ public class StockService {
 
     Stock ordreDeMagasinStock(String refmagasin,String refProduit){
         Magasin magasin=magasinService.findByReference(refmagasin);
-        List<Magasin> magasins=magasinService.findByPharmacieRefrence(magasin.getPharmacie().getRefrence());
+        List<Magasin> magasins=magasinService.findByPharmaciereference(magasin.getPharmacie().getReference());
         HashMap<Long,Double> stockList=new HashMap<>();
         String reference=magasin.getReference();
         for (Magasin magasine:magasins) {
@@ -74,7 +74,7 @@ public class StockService {
     @Transactional
     public int deleteByProduitRefAndMagasinReference(String refProduit, String referenceMagasin) {
         Stock stock=findByMagasinReferenceAndProduitRef(referenceMagasin, refProduit);
-        List<Magasin> magasins=magasinService.findByPharmacieRefrence(magasinService.findByReference(referenceMagasin).getPharmacie().getRefrence());
+        List<Magasin> magasins=magasinService.findByPharmaciereference(magasinService.findByReference(referenceMagasin).getPharmacie().getReference());
         if (stock.getQte() >0){
             for (Magasin curseur : magasins) {
                 Stock findMagProd=findByMagasinReferenceAndProduitRef(curseur.getReference(),refProduit);
@@ -115,7 +115,7 @@ public class StockService {
         operationStockService.soustractionDeLaquantiteDefectueuse(stock);//pour trouve la quantite reel
         if(redline>stock.getQte()){
             double qte=redline*3;
-           // achatproduitService.acheteproduit(produit,magasin,qte);
+            // achatproduitService.acheteproduit(produit,magasin,qte);
         }
     }
 
