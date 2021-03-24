@@ -18,5 +18,5 @@ public interface StockDao extends JpaRepository<Stock,Long> {
     int deleteByProduitRefAndMagasinReference(String refProduit,String reference);
     @Query("select c from Stock c where c.produit.libelle like '%s%'")
     List <Stock> findStockByProduitName(@Param("s") String libelle);
-
+    Stock findByIdAndQte(Long id,double qte);
 }

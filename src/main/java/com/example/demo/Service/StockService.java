@@ -7,17 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.*;
+
 @Service
 public class StockService {
-    @Autowired
-    private StockDao stockDao;
-    @Autowired
-    private ProduitService produitService;
-    @Autowired
-    private MagasinService magasinService;
-    @Autowired
-    private AchatproduitService achatproduitService;
+
     public List<Stock> findByProduitRef(String refProduit) {
         return stockDao.findByProduitRef(refProduit);
     }
@@ -37,30 +31,46 @@ public class StockService {
     }
     @Transactional
     public int deleteByMagasinReference(String referenceMagasin) {
-        List<Stock> stock =findByMagasinReference(referenceMagasin);
-        List<Magasin>magasin= magasinService.findByPharmacieRefrence(magasinService.findByReference(referenceMagasin).getPharmacie().getRefrence());
-        if (stock != null) {
-            for(Stock curseur:stock){
-                if (curseur.getProduit().getQteTotalStock() > 0) {
-                    for (Magasin curser : magasin) {
-                        Stock findMagProd=findByMagasinReferenceAndProduitRef(curser.getReference(),curseur.getProduit().getRef());
-                        if (findMagProd.getQte() >= 0 && !referenceMagasin.equals(curser.getReference())) {
-                            findMagProd.setQte(findMagProd.getQte()+curseur.getQte());
-                            curseur.setQte(0);
-                            break;
-                        }
-                        produitService.deleteByRef(curseur.getProduit().getRef());
-                    }
-                    return 1;
+        Magasin magasin =magasinService.findByReference(referenceMagasin);
+        List<Stock> stockList=findByMagasinReference(referenceMagasin);
+        if(magasin!=null) {
+            for (Stock stock : stockList) {
+                operationStockService.soustractionDeLaquantiteDefectueuse(stock);
+                String produitref=stock.getProduit().getRef();
+                Stock stock1=ordreDeMagasinStock(referenceMagasin,produitref);
+                String magasindes=stock1.getMagasin().getReference();
+                if (stock.getQte() > 0) {
+                    operationStockService.transferer(referenceMagasin,magasindes,produitref,stock.getQte());
                 }
+                deleteByProduitRefAndMagasinReference(stock.getProduit().getRef(), referenceMagasin);
             }
-            magasinService.deleteByReference(referenceMagasin);
-            return stockDao.deleteByMagasinReference(referenceMagasin);
+            return 1;
         }
         else return -2;
-
     }
 
+    Stock ordreDeMagasinStock(String refmagasin,String refProduit){
+        Magasin magasin=magasinService.findByReference(refmagasin);
+        List<Magasin> magasins=magasinService.findByPharmacieRefrence(magasin.getPharmacie().getRefrence());
+        HashMap<Long,Double> stockList=new HashMap<>();
+        String reference=magasin.getReference();
+        for (Magasin magasine:magasins) {
+            if (!reference.equals(magasine.getReference())){
+                Stock stock=findByMagasinReferenceAndProduitRef(magasine.getReference(),refProduit);
+                operationStockService.soustractionDeLaquantiteDefectueuse(stock);
+                stockList.put(stock.getId(),stock.getQte());
+            }
+        }
+        Map.Entry<Long, Double> maxEntry = null;
+        for (Map.Entry<Long, Double> entry : stockList.entrySet())
+        {
+            if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0)
+            {
+                maxEntry = entry;
+            }
+        }
+        return stockDao.findByIdAndQte(maxEntry.getKey(),maxEntry.getValue());
+    }
     @Transactional
     public int deleteByProduitRefAndMagasinReference(String refProduit, String referenceMagasin) {
         Stock stock=findByMagasinReferenceAndProduitRef(referenceMagasin, refProduit);
@@ -102,17 +112,21 @@ public class StockService {
         Produit produit =produitService.findByRef(stock.getProduit().getRef());
         Magasin magasin = magasinService.findByReference(stock.getMagasin().getReference());
         double redline= produit.getQteSeuilAlert();
+        operationStockService.soustractionDeLaquantiteDefectueuse(stock);//pour trouve la quantite reel
         if(redline>stock.getQte()){
             double qte=redline*3;
-            achatproduitService.acheteproduit(produit,magasin,qte);
+           // achatproduitService.acheteproduit(produit,magasin,qte);
         }
     }
-    public int soustractionDeLaquantite(String refMagasin,String refproduit){
-        Stock stock =findByMagasinReferenceAndProduitRef(refMagasin,refproduit);
-        if(stock==null){
-            return -2;
-        }
 
-    }
-
+    @Autowired
+    private StockDao stockDao;
+    @Autowired
+    private ProduitService produitService;
+    @Autowired
+    private MagasinService magasinService;
+    @Autowired
+    private AchatproduitService achatproduitService;
+    @Autowired
+    private OperationStockService operationStockService;
 }

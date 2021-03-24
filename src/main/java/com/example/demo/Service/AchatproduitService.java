@@ -4,39 +4,31 @@ import com.example.demo.bean.Achatproduit;
 import com.example.demo.dao.AchatproduitDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 @Service
 public class AchatproduitService {
-    public List<Achatproduit> findByProduitRef(String refProduit) {
-        return achatproduitDao.findByProduitRef(refProduit);
+
+
+    public Achatproduit findByProduitRefAndAchatRef(String refProduit, String ref) {
+        return achatproduitDao.findByProduitRefAndAchatRef(refProduit, ref);
     }
 
-    public List<Achatproduit> deleteByProduitRef(String refProduit) {
-        return achatproduitDao.deleteByProduitRef(refProduit);
+    public Achatproduit findByProduitRefAndMagasinReferenceAndAchatRef(String refProduit, String ref, String Ref) {
+        return achatproduitDao.findByProduitRefAndMagasinReferenceAndAchatRef(refProduit, ref, Ref);
     }
-
-    public List<Achatproduit> deleteByProduitRefAndAchatRef(String refProduit, String refAchat) {
-        return achatproduitDao.deleteByProduitRefAndAchatRef(refProduit, refAchat);
+    @Transactional
+    public int deleteByProduitRefAndAchatRef(String refProduit, String ref) {
+        return achatproduitDao.deleteByProduitRefAndAchatRef(refProduit, ref);
     }
-
-    public List<Achatproduit> findByProduitRefAndAchatRef(String refProduit, String refAchat) {
-        return achatproduitDao.findByProduitRefAndAchatRef(refProduit, refAchat);
-    }
-
-    public List<Achatproduit> findByProduitRefAndMagasinReference(String refProduit, String refMagasin) {
-        return achatproduitDao.findByProduitRefAndMagasinReference(refProduit, refMagasin);
+    @Transactional
+    public int deleteByProduitRefAndMagasinReferenceAndAchatRef(String refProduit, String ref, String Ref) {
+        return achatproduitDao.deleteByProduitRefAndMagasinReferenceAndAchatRef(refProduit, ref, Ref);
     }
 
     public List<Achatproduit> findAll() {
         return achatproduitDao.findAll();
-    }
-
-    public int save(Achatproduit achatproduit) {
-        if(achatproduit.getProduit().getRef()==null||findByProduitRef(achatproduit.getProduit().getRef())!=null)
-            return -1;
-                  else
-                achatproduitDao.save(achatproduit);
-                return 1;
     }
 
     @Autowired

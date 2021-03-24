@@ -6,10 +6,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface AchatproduitDao extends JpaRepository<Achatproduit,Long> {
-    List <Achatproduit> findByProduitRef(String refProduit);
-    List <Achatproduit> deleteByProduitRef(String refProduit);
-    List <Achatproduit> deleteByProduitRefAndAchatRef(String refProduit,String refAchat);
-    List<Achatproduit> findByProduitRefAndAchatRef(String refProduit, String refAchat);
-    List<Achatproduit> findByProduitRefAndMagasinReference(String refProduit, String refMagasin);
-
+    Achatproduit findByProduitRefAndAchatRef(String refProduit, String ref);
+    Achatproduit findByProduitRefAndMagasinReferenceAndAchatRef(String refProduit, String ref,String Ref);
+    int deleteByProduitRefAndAchatRef(String refProduit, String ref);
+    int deleteByProduitRefAndMagasinReferenceAndAchatRef(String refProduit, String ref,String Ref);
 }

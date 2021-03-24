@@ -36,8 +36,5 @@ public class OperationStockWs {
     public List<OperationStock> findAll() {
         return operationStockService.findAll();
     }
-    @DeleteMapping("/id/{id}")
-    public void deleteById(Long id) {
-        operationStockService.deleteById(id);
-    }
+
 }

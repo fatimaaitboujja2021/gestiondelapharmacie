@@ -7,7 +7,6 @@ import com.example.demo.bean.Stock;
 import com.example.demo.dao.OperationStockDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 @Service
 public class OperationStockService {
@@ -42,10 +41,7 @@ public class OperationStockService {
     public List<OperationStock> findAll() {
         return operationStockDao.findAll();
     }
-    @Transactional
-    public void deleteById(Long id) {
-        operationStockDao.deleteById(id);
-    }
+
     public int transferer(String refSource, String refDestination, String refProduit, double qte) {
         Magasin magasinSource = magasinService.findByReference(refSource);
         Magasin magasinDestination = magasinService.findByReference(refDestination);
@@ -71,11 +67,32 @@ public class OperationStockService {
             } else {
                 stockDestination.setQte(stockDestination.getQte() + qte);
                 stokage.savestockage(stockDestination);
+                stockSource.setQte(stockSource.getQte()-qte);
+                OperationStock transport=new OperationStock();
+                transport.setQte(qte);
+                transport.setDescrition("transport "+qte+" de "+refProduit+" de magasin "+refSource+" a le magasin "+refDestination);
+                transport.setProduit(produit);
+                transport.setMagasinDestination(magasinDestination);
+                transport.setMagasinSource(magasinSource);
+                operationStockDao.save(transport);
                 return 2;
             }
 
         }
     }
-
+    public int soustractionDeLaquantiteDefectueuse(Stock stock){
+        if(stock==null){
+            return -2;
+        }
+        else {
+            if(stock.getQte()<stock.getQteDeffectueuse()){
+                return -1;
+            }
+            else{
+                stock.setQte(stock.getQte()-stock.getQteDeffectueuse());
+                return 0;
+            }
+        }
+    }
 
 }
