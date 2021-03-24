@@ -22,16 +22,16 @@ public class PharmacieService {
         return pharmacieDao.findById(id);
     }
 
-    public Pharmacie findByRefrence(String ref) {
-        return pharmacieDao.findByRefrence(ref);
+    public Pharmacie findByreference(String ref) {
+        return pharmacieDao.findByreference(ref);
     }
 
     public List<Pharmacie> findByLibelle(String libelle) {
         return pharmacieDao.findByLibelle(libelle);
     }
 
-    public Pharmacie findByLibelleAndRefrence(String libelle, String ref) {
-        return pharmacieDao.findByLibelleAndRefrence(libelle, ref);
+    public Pharmacie findByLibelleAndreference(String libelle, String ref) {
+        return pharmacieDao.findByLibelleAndreference(libelle, ref);
     }
     public List<Pharmacie> chercherPharmacieparLibelle(String mc) {
         return pharmacieDao.chercherPharmacieparLibelle(mc);
@@ -47,15 +47,15 @@ public class PharmacieService {
     }
 
     @Transactional
-    public int deleteByRefrence(String ref) {
-        int resultmagasin=magasinService.deleteByPharmacieRefrence(ref);
-        int resultephamacie=pharmacieDao.deleteByRefrence(ref);
+    public int deleteByreference(String ref) {
+        int resultmagasin=magasinService.deleteByPharmaciereference(ref);
+        int resultephamacie=pharmacieDao.deleteByreference(ref);
         return resultephamacie+resultmagasin;
 
     }
 
     public int save(Pharmacie pharmacie) {
-        Pharmacie foundedPharmacie =findByRefrence(pharmacie.getRefrence());
+        Pharmacie foundedPharmacie =findByreference(pharmacie.getReference());
 
         if(foundedPharmacie != null){
             return -1;

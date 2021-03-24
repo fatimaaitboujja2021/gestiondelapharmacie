@@ -12,6 +12,23 @@ import java.util.List;
 @RequestMapping("gestion-pharmacie/achat")
 public class AchatProvided {
 
+@GetMapping("ref/{ref}")
+    public Achat findByRef(String Ref) {
+        return achatService.findByRef(Ref);
+    }
+
+@DeleteMapping("ref/{ref}")
+    public int deleteByRef(String Ref) {
+        return achatService.deleteByRef(Ref);
+    }
+
+    public List<Achat> findAll() {
+        return achatService.findAll();
+    }
+@PostMapping("/")
+    public int save(Achat achat) {
+        return achatService.save(achat);
+    }
 
     @Autowired
     private AchatService achatService;

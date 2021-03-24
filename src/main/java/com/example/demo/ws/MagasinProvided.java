@@ -1,18 +1,15 @@
 package com.example.demo.ws;
 
-
-
 import com.example.demo.Service.MagasinService;
 import com.example.demo.bean.Magasin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-
 import java.util.List;
 
 @RestController
 @RequestMapping("pharmacie/magasin")
-public class MagasinProvided {
+public class
+MagasinProvided {
 
     @PostMapping("/")
     public int save(@RequestBody Magasin magasin) {
@@ -31,12 +28,12 @@ public class MagasinProvided {
         return magasinService.findByReference(ref);
     }
     @DeleteMapping("/refpd/{refpd}")
-    public int deleteByPharmacieRefrence(@PathVariable String ref) {
-        return magasinService.deleteByPharmacieRefrence(ref);
+    public int deleteByPharmacieReference(@PathVariable String ref) {
+        return magasinService.deleteByPharmacieReference(ref);
     }
     @GetMapping("/refp/{refp}")
     public List<Magasin> findByPharmacieRefrence(@PathVariable String ref) {
-        return magasinService.findByPharmacieRefrence(ref);
+        return magasinService.findByPharmaciereference(ref);
     }
     @GetMapping("/refma/{refma}")
     public List<Magasin> chercherMagasinparAdresse( @PathVariable String mc) {

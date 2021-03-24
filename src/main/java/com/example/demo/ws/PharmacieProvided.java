@@ -25,19 +25,19 @@ public class PharmacieProvided {
         return pharmacieService.chercherPharmacieparLibelle(mc);
     }
     @GetMapping("/reflr/{reflr}")
-    public Pharmacie findByLibelleAndRefrence(@PathVariable String libelle, @PathVariable String ref) {
-        return pharmacieService.findByLibelleAndRefrence(libelle, ref);
+    public Pharmacie findByLibelleAndreference(@PathVariable String libelle, @PathVariable String ref) {
+        return pharmacieService.findByLibelleAndreference(libelle, ref);
     }
 
     @DeleteMapping("/refpd/{refpd}")
-    public int deleteByRefrence(@PathVariable String ref) {
-        return pharmacieService.deleteByRefrence(ref);
+    public int deleteByreference(@PathVariable String ref) {
+        return pharmacieService.deleteByreference(ref);
     }
 
 
     @GetMapping("/refp/{refp}")
     public Pharmacie findByRefPharmacie(@PathVariable String ref) {
-        return pharmacieService.findByRefrence(ref);
+        return pharmacieService.findByreference(ref);
     }
 
 
