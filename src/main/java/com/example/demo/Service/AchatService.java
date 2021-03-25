@@ -1,5 +1,6 @@
 package com.example.demo.Service;
 import com.example.demo.bean.Achat;
+import com.example.demo.bean.Magasin;
 import com.example.demo.bean.Produit;
 import com.example.demo.dao.AchatDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,17 +26,21 @@ public class AchatService {
         return achatDao.findAll();
     }
 
-    public int save(Achat achat) {
-        if(findByRef(achat.getRef())!=null)
-        {return -1;}
-        else if(achat.getRef()==null){
-            return -2;
+    public int save(String magasin,List<String> produits) {
+        Magasin magasin1=magasinService.findByReference(magasin);
+        for (String produit: produits) {
+            Produit produit1=produitService.findByRef(produit);
         }
-        achatDao.save(achat);
+       // achatDao.save(magasin,produits);
         return 1;
     }
-
-
+   //
+    @Autowired
+    private  ProduitService produitService;
+@Autowired
+private MagasinService magasinService;
+@Autowired
+private AchatproduitService achatproduitService;
     @Autowired
     private AchatDao achatDao;
 }

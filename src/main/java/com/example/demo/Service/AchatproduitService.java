@@ -1,11 +1,14 @@
 package com.example.demo.Service;
 
 import com.example.demo.bean.Achatproduit;
+import com.example.demo.bean.Magasin;
+import com.example.demo.bean.Produit;
+import com.example.demo.bean.Stock;
 import com.example.demo.dao.AchatproduitDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.DeleteMapping;
+
 
 import java.util.List;
 @Service
@@ -35,20 +38,36 @@ public class AchatproduitService {
     }
 
     public int   save(Achatproduit achatproduit) {
-        if(findByProduitRef(achatproduit.getProduit().getRef())!=null){
-            return  -1;
-        }
-        else if (findByProduitRefAndAchatRef(achatproduit.getProduit().getRef(),achatproduit.getAchat().getRef())!=null)
-        {
-            return -2;
-        }
-        else if(achatproduit.getProduit().getRef()==null||achatproduit.getAchat().getRef()==null){
-            return -3;
-        }
-        achatproduitDao.save(achatproduit);
-        return 1;
-    }
 
+        if (findByProduitRefAndAchatRef(achatproduit.getProduit().getRef(),achatproduit.getAchat().getRef())!=null)
+        {
+            return -1;
+        }
+        else {
+
+            Magasin magasin=magasinService.findByReference(achatproduit.getMagasin().getReference());
+            Produit produit=produitService.findByRef(achatproduit.getProduit().getRef());
+            Stock stock=stockService.findByMagasinReferenceAndProduitRef(magasin.getReference(),produit.getRef());
+            stock.setQte(stock.getQte()+achatproduit.getQte());
+            Achatproduit achatproduit1=new Achatproduit();
+            achatproduit1.setMagasin(magasin);
+            achatproduit1.setProduit(produit);
+            achatService.save(achatproduit.getAchat());
+            achatproduitDao.save(achatproduit);
+
+            return 1;
+        }
+
+    }
+    @Autowired
+    private StockService stockService;
+    @Autowired
+    private ProduitService produitService;
     @Autowired
     private AchatproduitDao achatproduitDao;
+    @Autowired
+    private MagasinService magasinService;
+    @Autowired
+    private AchatService achatService;
+
 }

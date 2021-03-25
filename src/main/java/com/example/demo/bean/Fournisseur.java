@@ -1,30 +1,22 @@
 package com.example.demo.bean;
 
 import javax.persistence.*;
+import java.util.List;
 @Entity
 public class Fournisseur {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private double id;
     private String ref;
-    @OneToOne
-    private Produit produit;
-    private double prixUnitaire;
+@OneToMany
+private List<Achatproduit> achatproduit;
 
-    public Produit getProduit() {
-        return produit;
+    public List<Achatproduit> getAchatproduit() {
+        return achatproduit;
     }
 
-    public void setProduit(Produit produit) {
-        this.produit = produit;
-    }
-
-    public double getPrixUnitaire() {
-        return prixUnitaire;
-    }
-
-    public void setPrixUnitaire(double prixUnitaire) {
-        this.prixUnitaire = prixUnitaire;
+    public void setAchatproduit(List<Achatproduit> achatproduit) {
+        this.achatproduit = achatproduit;
     }
 
     public double getId() {

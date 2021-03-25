@@ -8,7 +8,6 @@ public class Achat {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String ref;
-
     private double prixHt;
     private double prixTtc;
 

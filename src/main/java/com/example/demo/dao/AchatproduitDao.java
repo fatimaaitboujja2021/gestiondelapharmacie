@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AchatproduitDao extends JpaRepository<Achatproduit,Long> {
+
     Achatproduit findByProduitRef(String ref);
     Achatproduit findByProduitRefAndAchatRef(String refProduit, String ref);
     int deleteByAchatRef(String ref);

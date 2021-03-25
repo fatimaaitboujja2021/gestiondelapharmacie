@@ -2,7 +2,8 @@ package com.example.demo.bean;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+
+
 @Entity
 public class Stock implements Serializable {
     @Id
