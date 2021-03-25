@@ -31,7 +31,7 @@ public class AchatService {
         for (String produit: produits) {
             Produit produit1=produitService.findByRef(produit);
         }
-       // achatDao.save(magasin,produits);
+
         return 1;
     }
    //
