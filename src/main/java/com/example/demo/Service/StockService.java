@@ -73,20 +73,8 @@ public class StockService {
     }
     @Transactional
     public int deleteByProduitRefAndMagasinReference(String refProduit, String referenceMagasin) {
-        Stock stock=findByMagasinReferenceAndProduitRef(referenceMagasin, refProduit);
-        List<Magasin> magasins=magasinService.findByPharmaciereference(magasinService.findByReference(referenceMagasin).getPharmacie().getReference());
-        if (stock.getQte() >0){
-            for (Magasin curseur : magasins) {
-                Stock findMagProd=findByMagasinReferenceAndProduitRef(curseur.getReference(),refProduit);
-                if (findMagProd.getQte() >= 0 && !referenceMagasin.equals(curseur.getReference())) {
-                    findMagProd.setQte(findMagProd.getQte()+stock.getQte());
-                    stock.setQte(0);
-                    break;
-                }
-            }
-        }
-        produitService.deleteByRef(refProduit);
-        magasinService.deleteByReference(referenceMagasin);
+        Stock stock = findByMagasinReferenceAndProduitRef(referenceMagasin,refProduit);
+
         return deleteByProduitRefAndMagasinReference(refProduit, referenceMagasin);
     }
 
@@ -108,14 +96,19 @@ public class StockService {
             return 2;
         }
     }
-    public void checkredLine(Stock stock){
-        Produit produit =produitService.findByRef(stock.getProduit().getRef());
-        Magasin magasin = magasinService.findByReference(stock.getMagasin().getReference());
-        double redline= produit.getQteSeuilAlert();
-        operationStockService.soustractionDeLaquantiteDefectueuse(stock);//pour trouve la quantite reel
-        if(redline>stock.getQte()){
-            double qte=redline*3;
-            // achatproduitService.acheteproduit(produit,magasin,qte);
+    public void checkredLine(List<Produit> produitList,String refMagasin){
+        List<Produit>produits=null;
+        for (Produit produit:produitList) {
+            String refproduit=produit.getRef();
+            double redline= produit.getQteSeuilAlert();
+            Stock stock =findByMagasinReferenceAndProduitRef(refMagasin,refproduit);
+            operationStockService.soustractionDeLaquantiteDefectueuse(stock);//pour trouve la quantite reel
+            if(redline>stock.getQte()){
+                produits.add(stock.getProduit());
+            }
+            if(!produits.isEmpty()){
+                //achatService.acheter(refMagasin,produits);
+            }
         }
     }
 
@@ -126,7 +119,7 @@ public class StockService {
     @Autowired
     private MagasinService magasinService;
     @Autowired
-    private AchatproduitService achatproduitService;
+    private AchatService achatService;
     @Autowired
     private OperationStockService operationStockService;
 }
