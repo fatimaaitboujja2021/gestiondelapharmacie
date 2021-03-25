@@ -37,26 +37,9 @@ public class AchatproduitService {
         return achatproduitDao.findAll();
     }
 
-    public int   save(Achatproduit achatproduit) {
+    public int   achatproduit(String refproduit,String refMagasin,double qte) {
 
-        if (findByProduitRefAndAchatRef(achatproduit.getProduit().getRef(),achatproduit.getAchat().getRef())!=null)
-        {
-            return -1;
-        }
-        else {
 
-            Magasin magasin=magasinService.findByReference(achatproduit.getMagasin().getReference());
-            Produit produit=produitService.findByRef(achatproduit.getProduit().getRef());
-            Stock stock=stockService.findByMagasinReferenceAndProduitRef(magasin.getReference(),produit.getRef());
-            stock.setQte(stock.getQte()+achatproduit.getQte());
-            Achatproduit achatproduit1=new Achatproduit();
-            achatproduit1.setMagasin(magasin);
-            achatproduit1.setProduit(produit);
-            achatService.save(achatproduit.getAchat());
-            achatproduitDao.save(achatproduit);
-
-            return 1;
-        }
 
     }
     @Autowired

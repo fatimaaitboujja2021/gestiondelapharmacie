@@ -26,10 +26,12 @@ public class AchatService {
         return achatDao.findAll();
     }
 
-    public int save(String magasin,List<String> produits) {
+    public int acheter(String magasin,List<String> produits) {
         Magasin magasin1=magasinService.findByReference(magasin);
         for (String produit: produits) {
             Produit produit1=produitService.findByRef(produit);
+            double qte= (produit1.getQteSeuilAlert())*3;
+            achatproduitService.achatproduit(produit,magasin,qte);
         }
 
         return 1;
