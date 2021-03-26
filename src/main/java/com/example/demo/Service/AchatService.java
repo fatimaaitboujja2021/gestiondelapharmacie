@@ -29,8 +29,7 @@ public class AchatService {
     public int acheter(String magasin,List<String> produits) {
         double prixHt=0;
         double prixTTc;
-        Achat achat=new Achat();
-        achat.setRef(UUID.randomUUID().toString());
+        Achat achat=new Achat();achat.setRef(UUID.randomUUID().toString());
         for (String produit: produits) {
             double prixunitaire=fournisseurService.findByProduitRef(produit).getPrixUnitaire();
             Produit produit1=produitService.findByRef(produit);

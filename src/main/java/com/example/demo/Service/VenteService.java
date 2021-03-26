@@ -1,6 +1,7 @@
 package com.example.demo.Service;
 
 
+import com.example.demo.bean.Produit;
 import com.example.demo.bean.Vente;
 import com.example.demo.dao.VenteDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,22 +41,10 @@ public class VenteService {
         return venteDao.getOne(aLong);
     }
 
-    public int save(Vente vente) {
-        if(findByRef(vente.getRef())!=null){
-            return -1;
-        }else if(findByRefClient(vente.getRefClient())!=null){
-            return -2;
-        }else{
-             venteDao.save(vente);
-             return 1;
-        }
+    public int save(List<Produit>produitList,String refclient) {
+
 
     }
-
-    //calcule prixHt et prixTtc=>(Prix HT + TVA = Prix TTC)
-   /* public double calcul(double prixHt,double prixTtc,String ref){
-        double nvVente=get
-    }*/
 
 
     @Autowired

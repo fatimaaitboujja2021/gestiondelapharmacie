@@ -10,7 +10,7 @@ public class Vente {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String ref;
-    private String refClient;
+    private Client client;
     private double prixHt;
     private double prixTtc;
 
@@ -30,12 +30,12 @@ public class Vente {
         this.ref = ref;
     }
 
-    public String getRefClient() {
-        return refClient;
+    public Client getClient() {
+        return client;
     }
 
-    public void setRefClient(String refClient) {
-        this.refClient = refClient;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public double getPrixHt() {
