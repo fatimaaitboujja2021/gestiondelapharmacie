@@ -1,9 +1,6 @@
 package com.example.demo.Service;
 
-import com.example.demo.bean.Achatproduit;
-import com.example.demo.bean.Magasin;
-import com.example.demo.bean.Produit;
-import com.example.demo.bean.Stock;
+import com.example.demo.bean.*;
 import com.example.demo.dao.AchatproduitDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +12,7 @@ import java.util.List;
 public class AchatproduitService {
 
 
-    public Achatproduit findByProduitRef(String ref) {
+    public List<Achatproduit> findByProduitRef(String ref) {
         return achatproduitDao.findByProduitRef(ref);
     }
 
@@ -37,9 +34,27 @@ public class AchatproduitService {
         return achatproduitDao.findAll();
     }
 
-    public int   achatproduit(String refproduit,String refMagasin,double qte) {
-
-
+    public int  achatproduit(String refproduit,String refMagasin,double qte,String refAchat) {
+    Produit produit=produitService.findByRef(refproduit);
+    Magasin magasin =magasinService.findByReference(refMagasin);
+    Achat achat=achatService.findByRef(refAchat);
+    Achatproduit achatproduit=findByProduitRefAndAchatRef(refproduit,refAchat);
+    Stock stock=stockService.findByMagasinReferenceAndProduitRef(refMagasin,refproduit);
+    double prixunitaire=fournisseurService.findByProduitRef(produit.getRef()).getPrixUnitaire();
+        if(achatproduit==null)
+        return -2;
+    else {
+        Achatproduit achatproduit1=new Achatproduit();
+        achatproduit1.setAchat(achat);
+        achatproduit1.setMagasin(magasin);
+        achatproduit1.setProduit(produit);
+        achatproduit1.setQte(qte);
+        achatproduit1.setPrixUnitaire(prixunitaire);
+        achatproduit1.setPrixTotal(prixunitaire*qte);
+        achatproduitDao.save(achatproduit1);
+        stock.setQte(qte+stock.getQte());
+        return 1;
+    }
 
     }
     @Autowired
@@ -52,5 +67,7 @@ public class AchatproduitService {
     private MagasinService magasinService;
     @Autowired
     private AchatService achatService;
+    @Autowired
+    private  FournisseurService fournisseurService;
 
 }

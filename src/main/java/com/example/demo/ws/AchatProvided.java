@@ -25,10 +25,7 @@ public class AchatProvided {
     public List<Achat> findAll() {
         return achatService.findAll();
     }
-@PostMapping("/")
-    public int save(Achat achat) {
-        return achatService.save(achat);
-    }
+
 
     @Autowired
     private AchatService achatService;

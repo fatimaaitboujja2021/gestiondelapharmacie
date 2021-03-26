@@ -6,7 +6,9 @@ import java.util.List;
 @Entity
 public class Achat {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(updatable = false,nullable = false)
     private Long id;
+    @Column(updatable = false,nullable = false)
     private String ref;
     private double prixHt;
     private double prixTtc;

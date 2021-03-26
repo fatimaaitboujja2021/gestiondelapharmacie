@@ -14,7 +14,7 @@ import java.util.List;
 public class AchatproduitProvided {
 
 @GetMapping("ref/{ref}")
-    public Achatproduit findByProduitRef(String ref) {
+    public List<Achatproduit> findByProduitRef(String ref) {
         return achatproduitService.findByProduitRef(ref);
     }
     @GetMapping("refProduit/{refProduit}/ref/{ref}")
@@ -31,14 +31,11 @@ public class AchatproduitProvided {
     public int deleteByProduitRefAndAchatRef(String refProduit, String ref) {
         return achatproduitService.deleteByProduitRefAndAchatRef(refProduit, ref);
     }
-@GetMapping("")
+    @GetMapping("")
     public List<Achatproduit> findAll() {
         return achatproduitService.findAll();
     }
-@PostMapping("")
-    public int save(Achatproduit achatproduit) {
-        return achatproduitService.save(achatproduit);
-    }
+
 
     @Autowired
     private AchatproduitService achatproduitService;
