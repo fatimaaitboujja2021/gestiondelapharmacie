@@ -1,7 +1,7 @@
 package com.example.demo.Service;
 
 
-import com.example.demo.bean.Produit;
+import com.example.demo.bean.Client;
 import com.example.demo.bean.Vente;
 import com.example.demo.dao.VenteDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,33 +20,33 @@ public class VenteService {
     public int deleteByRef(String ref) {
         return venteDao.deleteByRef(ref);
     }
-
-    public Vente findByRefClient(String refClient) {
-        return venteDao.findByRefClient(refClient);
-    }
-    @Transactional
-    public int deleteByRefClient(String refClient) {
-        return venteDao.deleteByRefClient(refClient);
-    }
-
-    public List<Vente> findByPrixHtAndPrixTtc(double prixHt, double prixTtc) {
-        return venteDao.findByPrixHtAndPrixTtc(prixHt, prixTtc);
+    public Vente findByRefAndClientRef(String ref, String refClient) {
+        return venteDao.findByRefAndClientRef(ref, refClient);
     }
 
     public List<Vente> findAll() {
         return venteDao.findAll();
     }
 
-    public Vente getOne(Long aLong) {
-        return venteDao.getOne(aLong);
-    }
-
-    public int save(List<Produit>produitList,String refclient) {
-
+    public int save(Vente vente) {
+        Vente vente1=findByRef(vente.getRef());
+        Client client=clientService.findByRef(vente.getClient().getRef());
+        if(vente1==null){
+            Vente vente2=new Vente();
+            vente2.setClient(client);
+            vente2.setRef(vente.getRef());
+            vente2.setPrixHt(vente.getPrixHt());
+            vente2.setPrixTtc(vente.getPrixTtc());
+            venteDao.save(vente2);
+            return 1;
+        }
+        else return -2;
 
     }
 
 
     @Autowired
     private VenteDao venteDao;
+    @Autowired
+    private ClientService clientService;
 }

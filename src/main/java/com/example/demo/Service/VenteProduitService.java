@@ -2,6 +2,9 @@ package com.example.demo.Service;
 
 
 
+import com.example.demo.bean.Magasin;
+import com.example.demo.bean.Produit;
+import com.example.demo.bean.Vente;
 import com.example.demo.bean.VenteProduit;
 import com.example.demo.dao.VenteProduitDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +28,7 @@ public class VenteProduitService {
         return venteproduitDao.findByMagasinReference(refMagasin);
     }
 
-    public VenteProduit findByProduitRefAndMagasinReference(String refProduit, String refMagasin) {
+    public List<VenteProduit> findByProduitRefAndMagasinReference(String refProduit, String refMagasin) {
         return venteproduitDao.findByProduitRefAndMagasinReference(refProduit, refMagasin);
     }
 
@@ -45,11 +48,19 @@ public class VenteProduitService {
 
 
     public int save(VenteProduit venteProduit) {
-       if (findByProduitRefAndMagasinReference(venteProduit.getProduit().getRef(),venteProduit.getMagasin().getReference())!=null){
-           return -1;
-        } else {
-            //stockage(venteProduit.getRefMagasin(), venteProduit.getRefProduit(), venteProduit.getQte());
-            venteproduitDao.save(venteProduit);
+        Vente vente=venteService.findByRef(venteProduit.getVente().getRef());
+        Produit produit=produitService.findByRef(venteProduit.getProduit().getRef());
+        Magasin magasin=magasinService.findByReference(venteProduit.getMagasin().getReference());
+        if (magasin==null || produit==null || vente==null){
+             return -2;
+        }
+          else {
+            VenteProduit vente1 = new VenteProduit();
+            vente1.setVente(vente);
+            vente1.setProduit(produit);
+            vente1.setMagasin(magasin);
+            vente1.setQte(venteProduit.getQte());
+            venteproduitDao.save(vente1);
             return 1;
         }
 
@@ -62,4 +73,10 @@ public class VenteProduitService {
 
     @Autowired
     private VenteProduitDao venteproduitDao;
+    @Autowired
+    private  VenteService venteService;
+    @Autowired
+    private ProduitService produitService;
+    @Autowired
+    private MagasinService magasinService;
 }

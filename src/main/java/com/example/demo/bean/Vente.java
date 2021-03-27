@@ -1,15 +1,13 @@
 package com.example.demo.bean;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Vente {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String ref;
+    @ManyToOne
     private Client client;
     private double prixHt;
     private double prixTtc;

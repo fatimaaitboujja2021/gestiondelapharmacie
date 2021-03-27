@@ -12,16 +12,24 @@ import java.util.List;
 @RestController
 @RequestMapping("gestion-pharmacie/venteProduit")
 public class VenteProduitws {
+
     @GetMapping("/refProduit/{refProduit}")
-    public List<VenteProduit> findByRefProduit(@PathVariable String refProduit) {
+    public List<VenteProduit> findByProduitRef(String refProduit) {
         return venteProduitService.findByProduitRef(refProduit);
     }
-
-    @DeleteMapping("/refProduit/{refProduit}")
-    public int deleteByRefProduitAndRefMagasin(@PathVariable String refProduit,@PathVariable String refMagasin) {
-        return venteProduitService.deleteByProduitRefAndMagasinReference(refProduit,refMagasin);
+    @GetMapping("/refMagasin/{refMagasin}")
+    public List<VenteProduit> findByMagasinReference(String refMagasin) {
+        return venteProduitService.findByMagasinReference(refMagasin);
+    }
+    @GetMapping("/refProduit/{refProduit}/refMagasin/{refMagasin}")
+    public List<VenteProduit> findByProduitRefAndMagasinReference(String refProduit, String refMagasin) {
+        return venteProduitService.findByProduitRefAndMagasinReference(refProduit, refMagasin);
     }
 
+    @DeleteMapping("/refProduit/{refProduit}/refMagasin/{refMagasin}")
+    public int deleteByProduitRefAndMagasinReference(String refProduit, String refMagasin) {
+        return venteProduitService.deleteByProduitRefAndMagasinReference(refProduit, refMagasin);
+    }
 
     @GetMapping("/")
     public List<VenteProduit> findAll() {
@@ -33,12 +41,6 @@ public class VenteProduitws {
     public int save(@RequestBody VenteProduit venteProduit) {
         return venteProduitService.save(venteProduit);
     }
-    @GetMapping("/refMagasin/{refMagasin}")
-    public List<VenteProduit> findByRefMagasin(@PathVariable String refMagasin) {
-        return venteProduitService.findByMagasinReference(refMagasin);
-    }
-
-
 
     @Autowired
     private VenteProduitService venteProduitService;

@@ -10,9 +10,7 @@ import java.util.List;
 @Repository
 public interface VenteDao extends JpaRepository<Vente,Long> {
     Vente findByRef(String ref);
+    Vente findByRefAndClientRef(String ref,String refClient);
     int deleteByRef(String ref);
-    Vente findByRefClient(String refClient);
-    int deleteByRefClient(String refClient);
-    List<Vente> findByPrixHtAndPrixTtc(double prixHt,double prixTtc);
     List<Vente> findAll();
 }

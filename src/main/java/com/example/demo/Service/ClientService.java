@@ -5,10 +5,11 @@ import com.example.demo.bean.Magasin;
 import com.example.demo.bean.Produit;
 import com.example.demo.dao.ClientDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-public class CLientService {
+@Service
+public class ClientService {
     @Autowired
     private ClientDao clientDao;
     @Autowired
@@ -30,13 +31,12 @@ public class CLientService {
     public List<Client> findAll() {
         return clientDao.findAll();
     }
-    public int save(Client client, List<Produit> produitList){
-        Magasin magasin =magasinService.findByReference(client.getMagasin().getReference());
+    public int save(Client client){
+            Magasin magasin =magasinService.findByReference(client.getMagasin().getReference());
             Client client2=new Client();
             client2.setMagasin(magasin);
             client2.setRef(client.getRef());
             clientDao.save(client2);
-            venteService.Vente()
             return 1;
     }
 }
