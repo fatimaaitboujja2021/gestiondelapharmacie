@@ -28,8 +28,8 @@ public class PharmacieService {
         return pharmacieDao.findByLibelle(libelle);
     }
 
-    public Pharmacie findByLibelleAndreference(String libelle, String ref) {
-        return pharmacieDao.findByLibelleAndreference(libelle, ref);
+    public Pharmacie findByLibelleAndReference(String libelle, String ref) {
+        return pharmacieDao.findByLibelleAndReference(libelle, ref);
     }
     public List<Pharmacie> chercherPharmacieparLibelle(String mc) {
         return pharmacieDao.chercherPharmacieparLibelle(mc);

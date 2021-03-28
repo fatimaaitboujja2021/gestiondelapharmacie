@@ -1,16 +1,14 @@
 package com.example.demo.bean;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Vente {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String ref;
-    private String refClient;
+    @ManyToOne
+    private Client client;
     private double prixHt;
     private double prixTtc;
 
@@ -30,12 +28,12 @@ public class Vente {
         this.ref = ref;
     }
 
-    public String getRefClient() {
-        return refClient;
+    public Client getClient() {
+        return client;
     }
 
-    public void setRefClient(String refClient) {
-        this.refClient = refClient;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public double getPrixHt() {

@@ -2,7 +2,8 @@ package com.example.demo.bean;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+
+
 @Entity
 public class Stock implements Serializable {
     @Id
@@ -13,7 +14,7 @@ public class Stock implements Serializable {
     @ManyToOne
     private Magasin magasin;
     private double qte;
-    private double qteDeffectueuse;
+    private double qteDeffectueuse;//methode
 
     public Long getId() {
         return id;

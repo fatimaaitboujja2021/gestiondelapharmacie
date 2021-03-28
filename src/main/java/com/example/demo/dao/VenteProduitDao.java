@@ -12,6 +12,6 @@ public interface VenteProduitDao extends JpaRepository<VenteProduit,Long> {
     List<VenteProduit> findByProduitRef(String refProduit);
     int deleteByProduitRefAndMagasinReference(String refProduit,String refMagasin);
     List<VenteProduit> findByMagasinReference(String refMagasin);
-    VenteProduit findByProduitRefAndMagasinReference(String refProduit,String refMagasin);
+    List<VenteProduit> findByProduitRefAndMagasinReference(String refProduit,String refMagasin);
     List<VenteProduit> findAll();
 }

@@ -21,30 +21,14 @@ public class VenteWS {
     public int deleteByRef(@PathVariable String ref) {
         return venteService.deleteByRef(ref);
     }
-
-    @GetMapping("/refClient/{refClient}")
-    public Vente findByRefClient(@PathVariable String refClient) {
-        return venteService.findByRefClient(refClient);
-    }
-
-    @DeleteMapping("/refClient/{refClient}")
-    public int deleteByRefClient(@PathVariable String refClient) {
-        return venteService.deleteByRefClient(refClient);
-    }
-
-    @GetMapping("/prixHt/{prixHt}/prixTtc/{prixTtc}")
-    public List<Vente> findByPrixHtAndPrixTtc(@PathVariable double prixHt, @PathVariable double prixTtc) {
-        return venteService.findByPrixHtAndPrixTtc(prixHt, prixTtc);
+    @GetMapping("ref/{ref}/refClient/{refClient}")
+    public Vente findByRefAndClientRef(String ref, String refClient) {
+        return venteService.findByRefAndClientRef(ref, refClient);
     }
 
     @GetMapping("/")
     public List<Vente> findAll() {
         return venteService.findAll();
-    }
-
-    @GetMapping("/id/{id}")
-    public Vente getOne(@PathVariable Long id) {
-        return venteService.getOne(id);
     }
 
     @PostMapping("/")

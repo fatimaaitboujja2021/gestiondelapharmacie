@@ -3,10 +3,11 @@ package com.example.demo.Service;
 import com.example.demo.bean.Fournisseur;
 import com.example.demo.dao.FournisseurDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 
 import java.util.List;
-
+@Service
 public class FournisseurService {
 
     public Fournisseur findByRef(String Ref) {
@@ -19,6 +20,14 @@ public class FournisseurService {
 
     public List<Fournisseur> findAll() {
         return fournisseurDao.findAll();
+    }
+
+    public Fournisseur findByProduitRef(String refproduit) {
+        return fournisseurDao.findByProduitRef(refproduit);
+    }
+
+    public int deleteByProduitRef(String refProduit) {
+        return fournisseurDao.deleteByProduitRef(refProduit);
     }
 
     public int save(Fournisseur fournisseur) {

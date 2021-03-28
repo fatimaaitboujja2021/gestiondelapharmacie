@@ -25,8 +25,8 @@ public class PharmacieProvided {
         return pharmacieService.chercherPharmacieparLibelle(mc);
     }
     @GetMapping("/reflr/{reflr}")
-    public Pharmacie findByLibelleAndreference(@PathVariable String libelle, @PathVariable String ref) {
-        return pharmacieService.findByLibelleAndreference(libelle, ref);
+    public Pharmacie findByLibelleAndReference(@PathVariable String libelle, @PathVariable String ref) {
+        return pharmacieService.findByLibelleAndReference(libelle, ref);
     }
 
     @DeleteMapping("/refpd/{refpd}")

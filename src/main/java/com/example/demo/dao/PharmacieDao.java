@@ -17,7 +17,7 @@ public interface PharmacieDao extends JpaRepository<Pharmacie,Long> {
     List<Pharmacie> chercherPharmacieparLibelle(@Param("x") String motcle);
 
     List <Pharmacie> findByLibelle(String libelle);
-    Pharmacie findByLibelleAndreference(String libelle,String ref);
+    Pharmacie findByLibelleAndReference(String libelle,String ref);
     List <Pharmacie> findAll();
     int deleteByreference(String ref);
 }

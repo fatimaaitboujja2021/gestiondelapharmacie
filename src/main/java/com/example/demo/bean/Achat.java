@@ -1,15 +1,15 @@
 package com.example.demo.bean;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
+
 @Entity
 public class Achat {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(updatable = false,nullable = false)
     private Long id;
+    @Column(updatable = false,nullable = false)
     private String ref;
-    private String refFournisseur;
     private double prixHt;
     private double prixTtc;
 
@@ -29,13 +29,7 @@ public class Achat {
         this.ref = ref;
     }
 
-    public String getRefFournisseur() {
-        return refFournisseur;
-    }
 
-    public void setRefFournisseur(String refFournisseur) {
-        this.refFournisseur = refFournisseur;
-    }
 
     public double getPrixHt() {
         return prixHt;

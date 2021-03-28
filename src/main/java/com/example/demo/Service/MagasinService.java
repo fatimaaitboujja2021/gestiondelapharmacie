@@ -148,6 +148,7 @@ return resultepharmacie;
     //public int deleteByPharmaciereference(String reference) {
       /* List <Magasin> magasin=magasinDao.findByPharmaciereference(reference);
 
+}
 
 
         Stock resultstock= stockService.deleteByMagasinReference(stock.magasin().getreference)
@@ -198,7 +199,6 @@ Magasin resultmagasin= magasinDao.de
     private StockService stockService;
     @Autowired
     private ProduitService produitService;
-
     @Autowired
     private MagasinDao magasinDao;
     @Autowired
