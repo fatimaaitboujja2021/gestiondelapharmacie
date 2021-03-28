@@ -31,6 +31,11 @@ public class MagasinService {
         if(pharmacie==null){
             return -3;
         }
+        List<Stock> stock=stockService.findByMagasinReference(magasin.getReference());
+        magasin.setStock(stock);
+        if (stock==null){
+            return -4;
+        }
         else{
             magasinDao.save(magasin);
             return 1;
@@ -63,50 +68,18 @@ public class MagasinService {
         return magasinDao.findAll();
     }
 
-    public int transferer(String refSource, String refDestination, String refProduit, double qte) {
-        Magasin magasinSource = magasinDao.findByReference(refSource);
-        Magasin magasinDestination = magasinDao.findByReference(refDestination);
-        Produit produit = produitService.findByRef(refProduit);
 
-        if (produit == null || magasinSource == null || magasinDestination == null)
-            return -1;
 
-        Stock stockSource = stockService.findByMagasinReferenceAndProduitRef(refSource, refProduit);
-
-        if (stockSource == null) {
-            return -2;
-        } else {
-            Stock stockDestination = stockService.findByMagasinReferenceAndProduitRef(refSource, refProduit);
-            if (stockDestination == null) {
-
-                Stock myStock = new Stock();
-                myStock.setMagasin(magasinDestination);
-                myStock.setProduit(produit);
-                myStock.setQte(qte);
-                stockService.savestockage(myStock);
-                return 1;
-            } else {
-                stockDestination.setQte(stockDestination.getQte() + qte);
-                stockService.savestockage(stockDestination);
-                return 2;
-            }
-
-        }
-    }
-
-    public int transferer(String refPharmacieSource, String refpharmacieDestination){
+    public int changerlepharmaciedeMagasin(String refPharmacieSource, String refpharmacieDestination){
         Pharmacie pharmaciesource=pharmacieService.findByreference(refPharmacieSource);
         Pharmacie pharmacieDestination=pharmacieService.findByreference(refpharmacieDestination);
         if ( pharmaciesource == null)
             return -1;
         else {
             if (pharmacieDestination == null) {
-
                 Pharmacie newpharmacie = new Pharmacie();
                 newpharmacie.setMagasin(pharmaciesource.getMagasin());
-                newpharmacie.setRue(pharmaciesource.getRue());
                 pharmacieService.save(newpharmacie);
-
                 return 1;
             } else {
                 List<Magasin> magasinsource=magasinDao.findByPharmacieReference(refPharmacieSource);
@@ -125,9 +98,25 @@ public class MagasinService {
     }
 
 
+
+
+
+
+
     @Transactional
     public int deleteByPharmacieReference(String reference) {
-        Pharmacie pharmaciesource=pharmacieService.findByreference(reference);
+    List<Magasin> magasin = findByPharmaciereference(reference);
+        for (Magasin M : magasin )
+        {
+            int resultstock = stockService.deleteByMagasinReference(M.getReference());
+        }
+        int resultmagasin=magasinDao.deleteByPharmacieReference(reference);
+        int resultepharmacie=pharmacieService.deleteByreference(reference);
+
+return resultepharmacie;
+    }
+
+       /* Pharmacie pharmaciesource=pharmacieService.findByreference(reference);
         List<Pharmacie> pharmaciedestination=pharmacieService.findAll();
         if (pharmaciesource==null) {
             return magasinDao.deleteByPharmacieReference(reference) ;
@@ -136,21 +125,24 @@ public class MagasinService {
 
             for (Pharmacie Ph : pharmaciedestination )
                 {
-                    List<Magasin> magasinsource=magasinDao.findByPharmacieReference(pharmaciesource.getReference());
+                    if(pharmaciesource.getReference()!=Ph.getReference()){
 
-                    for (Magasin Ms: magasinsource){
+                        List<Magasin> magasinsource=magasinDao.findByPharmacieReference(reference);
+
+                        for (Magasin Ms: magasinsource){
 
                         List<Magasin> magasindestination=magasinDao.findByPharmacieReference(Ph.getReference());
-                    for (Magasin Md: magasindestination ){
 
-                        while (Ms.getReference()!=Md.getReference())
+                        for (Magasin Md: magasindestination ){
 
-                        transferer(pharmaciesource.getReference(),Ph.getReference());
-                }}}
+                        if (Ms.getReference()!=Md.getReference())
+
+                        changerlepharmacie(pharmaciesource.getReference(),Ph.getReference());
+                }}}}
         }
-        return magasinDao.deleteByPharmacieReference(reference) ;
+        return magasinDao.deleteByPharmacieReference(reference) ;*/
 
-    }
+
 
     //@Transactional
     //public int deleteByPharmaciereference(String reference) {
@@ -186,22 +178,19 @@ Magasin resultmagasin= magasinDao.de
              int magasinresult =magasinDao.deleteByReference(ref);
              return stockresult+magasinresult;
         }
-    @Transactional
-    public int deleteByAdresse(String adresse) {
-        //int stockresult= stockService.deleteByMagasinReference(magasin.get);
-        //int magasinresult =magasinDao.deleteByReference(ref);
-        //return stockresult+magasinresult;
-        return magasinDao.deleteByAdresse(adresse);
-    }
 
     public List<Magasin> findByRueCode(String Code) {
         return magasinDao.findByRueCode(Code);
     }
-
     @Transactional
-    public int deleteByRueCode(String Code) {
-        return  rueService.deleteByCode(Code);
-    }
+       public int deleteByRueCode(String code){
+        List<Magasin> magasin =findByRueCode(code);
+        for(Magasin M : magasin){
+            int stockresult= stockService.deleteByMagasinReference(M.getReference());
+        }
+           int magasinresult =magasinDao.deleteByRueCode(code);
+         return magasinresult;
+}
 
     @Autowired
     private RueService rueService;
