@@ -30,6 +30,18 @@ public class RueService {
         int resulterue=rueDao.deleteByCode(code);
         return resulterue+resultmagasin;
     }
+
+    public Rue findByMagasinReference(String  ref){
+        return rueDao.findByMagasinReference(ref);
+    };
+
+    @Transactional
+    int deleteByMagasinReference(String  ref){
+        return rueDao.deleteByMagasinReference(ref);
+    };
+
+
+
     @Transactional
     public int deleteByLibelle(String libelle) {
         return rueDao.deleteByLibelle(libelle);

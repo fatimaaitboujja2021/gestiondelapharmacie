@@ -25,7 +25,10 @@ public class AchatProvided {
     public List<Achat> findAll() {
         return achatService.findAll();
     }
-
+    @PostMapping("magasin/{magasin}/produits/{produits}")
+    public int acheter(String magasin, List<String> produits) {
+        return achatService.acheter(magasin, produits);
+    }
 
     @Autowired
     private AchatService achatService;

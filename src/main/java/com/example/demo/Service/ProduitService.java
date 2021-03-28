@@ -39,9 +39,6 @@ public class ProduitService {
         return produitDao.deleteByLibelle(libelle);
     }
     @Transactional
-    public void deleteById(Long aLong) {
-        produitDao.deleteById(aLong);
-    }
 
     public List<Produit> findAll() {
         return produitDao.findAll();
