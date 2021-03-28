@@ -1,6 +1,12 @@
 package com.example.demo.bean;
 
+
+
+
 import javax.persistence.*;
+import java.util.HashMap;
+import java.util.Map;
+
 
 @Entity
 public class Client {
@@ -11,7 +17,8 @@ public class Client {
     @ManyToOne
     private Magasin magasin;
 
-    public double getId() {
+
+	public double getId() {
         return id;
     }
 
