@@ -12,8 +12,12 @@ import java.util.List;
 @RestController
 @RequestMapping("gestion-pharmacie/achat-produit")
 public class AchatproduitProvided {
+    @GetMapping("ref/{ref}")
+    public List<Achatproduit> findByAchatRef(String ref) {
+        return achatproduitService.findByAchatRef(ref);
+    }
 
-@GetMapping("ref/{ref}")
+    @GetMapping("ref/{ref}")
     public List<Achatproduit> findByProduitRef(String ref) {
         return achatproduitService.findByProduitRef(ref);
     }
@@ -22,20 +26,20 @@ public class AchatproduitProvided {
         return achatproduitService.findByProduitRefAndAchatRef(refProduit, ref);
     }
 
-    @DeleteMapping("ref/{ref}")
-    public int deleteByAchatRef(String ref) {
-        return achatproduitService.deleteByAchatRef(ref);
-    }
+
 
     @DeleteMapping("refProduit/{refProduit}/ref/{ref}")
     public int deleteByProduitRefAndAchatRef(String refProduit, String ref) {
         return achatproduitService.deleteByProduitRefAndAchatRef(refProduit, ref);
     }
-    @GetMapping("")
+    @GetMapping("/")
     public List<Achatproduit> findAll() {
         return achatproduitService.findAll();
     }
-
+      @PostMapping("refproduit/{refproduit}/refMagasin/{refMagasin}/qte/{qte}/refAchat/{refAchat}")
+    public int achatproduit(String refproduit, String refMagasin, double qte, String refAchat) {
+        return achatproduitService.achatproduit(refproduit, refMagasin, qte, refAchat);
+    }
 
     @Autowired
     private AchatproduitService achatproduitService;

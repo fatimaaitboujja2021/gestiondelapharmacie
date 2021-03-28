@@ -11,6 +11,9 @@ import java.util.List;
 @Service
 public class AchatproduitService {
 
+    public List<Achatproduit> findByAchatRef(String ref) {
+        return achatproduitDao.findByAchatRef(ref);
+    }
 
     public List<Achatproduit> findByProduitRef(String ref) {
         return achatproduitDao.findByProduitRef(ref);
@@ -20,15 +23,25 @@ public class AchatproduitService {
         return achatproduitDao.findByProduitRefAndAchatRef(refProduit, ref);
     }
 @Transactional
-    public int deleteByAchatRef(String ref) {
-
-        return achatproduitDao.deleteByAchatRef(ref);
-    }
-@Transactional
     public int deleteByProduitRefAndAchatRef(String refProduit, String ref) {
+       Produit produit=produitService.findByRef(refProduit);
+       Achat achat=achatService.findByRef(ref);
+       Achatproduit achatproduit=findByProduitRefAndAchatRef(produit.getRef(),achat.getRef());
+       Magasin magasin=magasinService.findByReference(achatproduit.getMagasin().getReference());
+       Stock stock=stockService.findByMagasinReferenceAndProduitRef(magasin.getReference(),refProduit);
+       if (achat!=null){
+           if (achatproduit!=null)
+           {
+               //  achat.setPrixHt(achat.getPrixHt()-achatproduit.getPrixUnitaire()*achatproduit.getQte());
+               stock.setQte(stock.getQte()-achatproduit.getQte());
 
-        return achatproduitDao.deleteByProduitRefAndAchatRef(refProduit, ref);
-    }
+       }
+
+       }
+
+    return achatproduitDao.deleteByProduitRefAndAchatRef(refProduit, ref);
+}
+
 
     public List<Achatproduit> findAll() {
         return achatproduitDao.findAll();
@@ -38,9 +51,9 @@ public class AchatproduitService {
     Produit produit=produitService.findByRef(refproduit);
     Magasin magasin =magasinService.findByReference(refMagasin);
     Achat achat=achatService.findByRef(refAchat);
-    Achatproduit achatproduit=findByProduitRefAndAchatRef(refproduit,refAchat);
     Stock stock=stockService.findByMagasinReferenceAndProduitRef(refMagasin,refproduit);
     double prixunitaire=fournisseurService.findByProduitRef(produit.getRef()).getPrixUnitaire();
+    Achatproduit achatproduit=findByProduitRefAndAchatRef(refproduit,refAchat);
         if(achatproduit==null)
         return -2;
     else {
@@ -68,6 +81,6 @@ public class AchatproduitService {
     @Autowired
     private AchatService achatService;
     @Autowired
-    private  FournisseurService fournisseurService;
+    private FournisseurService fournisseurService;
 
 }
