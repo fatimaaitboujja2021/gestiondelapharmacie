@@ -7,6 +7,7 @@ import com.example.demo.dao.MagasinDao;
 import com.example.demo.Service.MagasinService;
 import com.example.demo.Service.RueService;
 
+import com.example.demo.dao.StockDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +20,7 @@ public class MagasinService {
 
     public int save(Magasin magasin){
         if(findByReference(magasin.getReference())!=null){
-            return -1;
+            return -2;
         }
         Rue rue =rueService.findByCode(magasin.getRue().getCode());
         magasin.setRue(rue);
@@ -29,19 +30,28 @@ public class MagasinService {
         Pharmacie pharmacie = pharmacieService.findByreference(magasin.getPharmacie().getReference());
         magasin.setPharmacie(pharmacie);
         if(pharmacie==null){
-            return -3;
+            return -2;
         }
-        List<Stock> stock=stockService.findByMagasinReference(magasin.getReference());
-        magasin.setStock(stock);
-        if (stock==null){
-            return -4;
-        }
-        else{
+            Magasin magasin1=new Magasin();
+            magasin1.setAdresse(magasin.getAdresse());
+            magasin1.setPharmacie(pharmacie);
+            magasin1.setRue(rue);
+            magasin1.setReference(magasin.getReference());
             magasinDao.save(magasin);
+            saveStock(magasin,magasin.getStock());
+            magasin1.setStock(magasin1.getStock());
+            return 1;
+    }
+
+    public int saveStock(Magasin magasin,List<Stock> stock){
+        for (Stock stock1:stock) {
+            stock1.setMagasin(magasin);
+            Produit produit =produitService.findByRef(stock1.getProduit().getRef());
+            stock1.setProduit(produit);
+            stockDao.save(stock1);
+        }
             return 1;
         }
-
-    }
 
 
     public Magasin findByAdresse(String adresse) {
@@ -203,6 +213,8 @@ Magasin resultmagasin= magasinDao.de
     private MagasinDao magasinDao;
     @Autowired
     private PharmacieService pharmacieService;
+    @Autowired
+    private StockDao stockDao;
 
 
 
