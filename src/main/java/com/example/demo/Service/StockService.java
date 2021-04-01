@@ -82,7 +82,7 @@ public class StockService {
         Produit produit = produitService.findByRef(stockage.getProduit().getRef());
         Magasin magasin = magasinService.findByReference(stockage.getMagasin().getReference());
         Stock stockBean = findByMagasinReferenceAndProduitRef(stockage.getProduit().getRef(), stockage.getMagasin().getReference());
-
+        if(produit ==null || magasin ==null) return -1;
         if(stockBean==null){
             Stock myStockBean= new Stock();
             myStockBean.setProduit(produit);

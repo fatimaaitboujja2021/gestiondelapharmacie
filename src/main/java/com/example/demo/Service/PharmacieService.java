@@ -50,27 +50,30 @@ public class PharmacieService {
 
     public int save(Pharmacie pharmacie) {
         Pharmacie foundedPharmacie =findByreference(pharmacie.getReference());
-
         if(foundedPharmacie != null){
             return -1;
         }
         Rue rue =rueService.findByCode(pharmacie.getRue().getCode());
-        pharmacie.setRue(rue);
         if(rue==null){
             return -2;
         }
-        List<Magasin> magasin =magasinService.findByPharmaciereference(pharmacie.getReference());
+        pharmacie.setRue(rue);
+        pharmacieDao.save(pharmacie);
+        saveMagasin(pharmacie, pharmacie.getMagasin());
+        List<Magasin> magasin=magasinService.findByPharmaciereference(pharmacie.getReference());
         pharmacie.setMagasin(magasin);
-        if(magasin==null){
-            return -3;
-        }
-        else{
-            pharmacieDao.save(pharmacie);
-            return 1;
+        return 1;
+    }
+
+    private void saveMagasin(Pharmacie pharmacie, List<Magasin> magasinList) {
+        for (Magasin magasin :magasinList) {
+            magasinService.save(magasin);
         }
     }
-@Autowired
+
+    @Autowired
     RueService rueService;
+
 
 
 }
