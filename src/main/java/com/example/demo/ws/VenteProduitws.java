@@ -2,9 +2,9 @@ package com.example.demo.ws;
 
 
 import com.example.demo.Service.VenteProduitService;
+import com.example.demo.bean.Vente;
 import com.example.demo.bean.VenteProduit;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class VenteProduitws {
         return venteProduitService.findByMagasinReference(refMagasin);
     }
     @GetMapping("/refProduit/{refProduit}/refMagasin/{refMagasin}")
-    public List<VenteProduit> findByProduitRefAndMagasinReference(String refProduit, String refMagasin) {
+    public VenteProduit findByProduitRefAndMagasinReference(String refProduit, String refMagasin) {
         return venteProduitService.findByProduitRefAndMagasinReference(refProduit, refMagasin);
     }
 
@@ -38,8 +38,16 @@ public class VenteProduitws {
 
 
     @PostMapping("/")
-    public int save(@RequestBody VenteProduit venteProduit) {
-        return venteProduitService.save(venteProduit);
+    public int save(@RequestBody Vente vente,@RequestBody List<VenteProduit> venteProduits) {
+        return venteProduitService.save(vente, venteProduits);
+    }
+    @GetMapping("/vente/{vente}")
+    public List<VenteProduit> findByVenteRef(Vente vente) {
+        return venteProduitService.findByVenteRef(vente);
+    }
+    @DeleteMapping("/vente/ref/{ref}")
+    public int deleteByVenteRef(String ref) {
+        return venteProduitService.deleteByVenteRef(ref);
     }
 
     @Autowired

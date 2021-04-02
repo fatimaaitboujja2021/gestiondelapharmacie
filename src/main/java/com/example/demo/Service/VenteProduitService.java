@@ -2,10 +2,8 @@ package com.example.demo.Service;
 
 
 
-import com.example.demo.bean.Magasin;
-import com.example.demo.bean.Produit;
-import com.example.demo.bean.Vente;
-import com.example.demo.bean.VenteProduit;
+import com.example.demo.bean.*;
+import com.example.demo.dao.StockDao;
 import com.example.demo.dao.VenteProduitDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,43 +26,43 @@ public class VenteProduitService {
         return venteproduitDao.findByMagasinReference(refMagasin);
     }
 
-    public List<VenteProduit> findByProduitRefAndMagasinReference(String refProduit, String refMagasin) {
+    public VenteProduit findByProduitRefAndMagasinReference(String refProduit, String refMagasin) {
         return venteproduitDao.findByProduitRefAndMagasinReference(refProduit, refMagasin);
     }
 
     @Transactional
     public int deleteByProduitRefAndMagasinReference(String refProduit,String refMagasin) {
-        if(findByProduitRefAndMagasinReference(refProduit,refMagasin)!=null){
-            //rj3 stock refproduit refmagsin qte
-            venteproduitDao.deleteByProduitRefAndMagasinReference(refProduit,refMagasin);
-            return 1;
-        }else{
+            VenteProduit venteProduit = findByProduitRefAndMagasinReference(refProduit,refMagasin);
+            Stock stock= stockService.findByMagasinReferenceAndProduitRef(refMagasin,refProduit);
+            if (venteProduit !=null){
+                stock.setQte(venteProduit.getQte()+stock.getQte());
+                return venteproduitDao.deleteByProduitRefAndMagasinReference(refProduit,refMagasin);
+            }else{
+                return -1;
+            }
+    }
 
+
+    public int save(Vente vente,List<VenteProduit> venteProduits){
+        if(venteProduits==null || venteProduits.isEmpty()){
             return -1;
-        }
-
-
-    }
-
-
-    public int save(VenteProduit venteProduit) {
-        Vente vente=venteService.findByRef(venteProduit.getVente().getRef());
-        Produit produit=produitService.findByRef(venteProduit.getProduit().getRef());
-        Magasin magasin=magasinService.findByReference(venteProduit.getMagasin().getReference());
-        if (magasin==null || produit==null || vente==null){
-             return -2;
-        }
-          else {
-            VenteProduit vente1 = new VenteProduit();
-            vente1.setVente(vente);
-            vente1.setProduit(produit);
-            vente1.setMagasin(magasin);
-            vente1.setQte(venteProduit.getQte());
-            venteproduitDao.save(vente1);
+        }else{
+            for (VenteProduit venteProduit: venteProduits) {
+                venteProduit.setVente(vente);
+                venteproduitDao.save(venteProduit);
+            }
             return 1;
         }
-
     }
+
+    public List<VenteProduit> findByVenteRef(Vente vente) {
+        return venteproduitDao.findByVenteRef(vente);
+    }
+
+    public int deleteByVenteRef(String ref) {
+        return venteproduitDao.deleteByVenteRef(ref);
+    }
+
 
 
 
@@ -79,4 +77,8 @@ public class VenteProduitService {
     private ProduitService produitService;
     @Autowired
     private MagasinService magasinService;
+    @Autowired
+    private StockService stockService;
+
+
 }
