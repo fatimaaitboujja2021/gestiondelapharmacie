@@ -9,12 +9,13 @@ public class Stock implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private double qte;
+    private double qteDeffectueuse;
     @ManyToOne
     private Produit produit;
     @ManyToOne
     private Magasin magasin;
-    private double qte;
-    private double qteDeffectueuse;//methode
+    //methode
 
     public Long getId() {
         return id;

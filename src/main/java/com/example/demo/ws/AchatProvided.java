@@ -13,12 +13,12 @@ import java.util.List;
 public class AchatProvided {
 
 @GetMapping("ref/{ref}")
-    public Achat findByRef(String Ref) {
+    public Achat findByRef(@PathVariable String Ref) {
         return achatService.findByRef(Ref);
     }
 
 @DeleteMapping("ref/{ref}")
-    public int deleteByRef(String Ref) {
+    public int deleteByRef(@PathVariable String Ref) {
         return achatService.deleteByRef(Ref);
     }
 
@@ -26,7 +26,7 @@ public class AchatProvided {
         return achatService.findAll();
     }
     @PostMapping("magasin/{magasin}/produits/{produits}")
-    public int acheter(String magasin, List<String> produits) {
+    public int acheter(@RequestBody String magasin,@RequestBody List<String> produits) {
         return achatService.acheter(magasin, produits);
     }
 

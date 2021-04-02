@@ -7,6 +7,7 @@ import com.example.demo.dao.MagasinDao;
 import com.example.demo.Service.MagasinService;
 import com.example.demo.Service.RueService;
 
+import com.example.demo.dao.StockDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,21 +29,39 @@ public class MagasinService {
         }
         Pharmacie pharmacie = pharmacieService.findByreference(magasin.getPharmacie().getReference());
         magasin.setPharmacie(pharmacie);
-        if(pharmacie==null){
-            return -3;
-        }
-        List<Stock> stock=stockService.findByMagasinReference(magasin.getReference());
-        magasin.setStock(stock);
-        if (stock==null){
-            return -4;
-        }
-        else{
+            Magasin magasin1=new Magasin();
+            magasin1.setAdresse(magasin.getAdresse());
+            magasin1.setPharmacie(pharmacie);
+            magasin1.setRue(rue);
+            magasin1.setReference(magasin.getReference());
+            magasin1.setStock(magasin.getStock());
             magasinDao.save(magasin);
+            saveStock(magasin,magasin.getStock());
+            magasin1.setStock(magasin1.getStock());
+            magasinDao.save(magasin1);
             return 1;
-        }
-
     }
 
+    public int saveStock(Magasin magasin,List<Stock> stocks){
+        for (Stock stock:stocks) {
+            stock.setMagasin(magasin);
+            if(stock.getProduit()!= null && stock.getProduit().getRef() != null) {
+                Produit produit = produitService.findByRef(stock.getProduit().getRef());
+                stock.setProduit(produit);
+            }
+            stockDao.save(stock);
+        }
+            return 1;
+        }
+//public void save(Magasin magasin, List<Stock> stocks) {
+//    for (Stock stock :stocks){
+//        stock.setMagasin(magasin);
+//        if(stock.getProduit()!= null && stock.getProduit().getRef() != null) {
+//            stock.setProduit(produitService.findByRef(stock.getProduit().getRef()));
+//        }
+//        stockDao.save(stock);
+//    }
+//}
 
     public Magasin findByAdresse(String adresse) {
         return magasinDao.findByAdresse(adresse);
@@ -69,33 +88,6 @@ public class MagasinService {
     }
 
 
-
-    public int changerlepharmaciedeMagasin(String refPharmacieSource, String refpharmacieDestination){
-        Pharmacie pharmaciesource=pharmacieService.findByreference(refPharmacieSource);
-        Pharmacie pharmacieDestination=pharmacieService.findByreference(refpharmacieDestination);
-        if ( pharmaciesource == null)
-            return -1;
-        else {
-            if (pharmacieDestination == null) {
-                Pharmacie newpharmacie = new Pharmacie();
-                newpharmacie.setMagasin(pharmaciesource.getMagasin());
-                pharmacieService.save(newpharmacie);
-                return 1;
-            } else {
-                List<Magasin> magasinsource=magasinDao.findByPharmacieReference(refPharmacieSource);
-
-
-                    for (int i=0; i<magasinsource.size(); i++)
-                    {
-                        Magasin magasin = magasinsource.get(i);
-                        magasin.setPharmacie(pharmacieDestination);
-                        save(magasin);
-                    }
-                return 2;
-            }
-
-        }
-    }
 
 
 
@@ -203,6 +195,8 @@ Magasin resultmagasin= magasinDao.de
     private MagasinDao magasinDao;
     @Autowired
     private PharmacieService pharmacieService;
+    @Autowired
+    private StockDao stockDao;
 
 
 

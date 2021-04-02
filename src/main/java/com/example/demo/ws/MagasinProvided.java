@@ -21,10 +21,7 @@ MagasinProvided {
         return magasinService.findByReferenceAndPharmaciereference(ref, reference);
     }
 
-    @GetMapping("/refmpharS/{refmpharD}")
-    public int changerlepharmaciedeMagasin (@PathVariable String refS, @PathVariable String refD) {
-        return magasinService.changerlepharmaciedeMagasin(refS, refD);
-    }
+
     @DeleteMapping("/refm/{refm}")
     public int deleteByReference(@PathVariable String ref) {
         return magasinService.deleteByReference(ref);

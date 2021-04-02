@@ -13,16 +13,9 @@ public class Rue {
     private String code;
     private String libelle;
 
-    @OneToMany
-    private List<Magasin> magasin;
 
-    public List<Magasin> getMagasin() {
-        return magasin;
-    }
 
-    public void setMagasin(List<Magasin> magasin) {
-        this.magasin = magasin;
-    }
+
 
     public Long getId() {
         return id;

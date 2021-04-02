@@ -9,10 +9,22 @@ public class Produit {
     private Long id;
     private double qteTotalStock;
     private double qteSeuilAlert;
+    private double qteDeffectueuse;
     private String libelle;
     private String type;
     private String  ref;
 
+
+
+
+
+    public double getQteDeffectueuse() {
+        return qteDeffectueuse;
+    }
+
+    public void setQteDeffectueuse(double qteDeffectueuse) {
+        this.qteDeffectueuse = qteDeffectueuse;
+    }
 
     public Long getId() {
         return id;

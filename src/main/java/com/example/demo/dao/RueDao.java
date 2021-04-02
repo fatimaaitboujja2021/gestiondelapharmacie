@@ -8,8 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RueDao extends JpaRepository<Rue,Long> {
     Rue findByCode(String  code);
-    Rue findByMagasinReference(String  ref);
-    int deleteByMagasinReference(String  ref);
     Rue findByLibelle(String libelle);
     int deleteByCode(String  code);
     int deleteByLibelle(String libelle);
