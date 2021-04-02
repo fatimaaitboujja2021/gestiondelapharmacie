@@ -26,8 +26,8 @@ public class AchatProvided {
         return achatService.findAll();
     }
     @PostMapping("magasin/{magasin}/produits/{produits}")
-    public int acheter(@RequestBody String magasin,@RequestBody List<String> produits) {
-        return achatService.acheter(magasin, produits);
+    public int acheter(@RequestBody Achat achat,@RequestBody String magasin,@RequestBody List<String> produits) {
+        return achatService.acheter(achat,magasin, produits);
     }
 
     @Autowired

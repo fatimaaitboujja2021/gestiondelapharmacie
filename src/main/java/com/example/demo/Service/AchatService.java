@@ -32,23 +32,29 @@ public class AchatService {
         return achatDao.findAll();
     }
 
-    public int acheter(String magasin,List<String> produits) {
+    public int acheter(Achat achat,String magasin,List<String> produits) {
         double prixHt=0;
         double prixTTc;
-        Achat achat=new Achat();
-          achat.setRef(UUID.randomUUID().toString());
-        for (String refproduit: produits) {
-            double prixunitaire=fournisseurService.findByProduitRef(refproduit).getPrixUnitaire();
-            Produit produit1=produitService.findByRef(refproduit);
-            double qte= (produit1.getQteSeuilAlert())*3;
-            achatproduitService.achatproduit(refproduit,magasin,qte,achat.getRef());
-            prixHt+=prixunitaire*qte;
+        achat=findByRef(achat.getRef());
+        if(achat!=null)
+        {
+            return -1;
         }
-        prixTTc=prixHt*1.196;
-        achat.setPrixHt(prixHt);
-        achat.setPrixTtc(prixTTc);
-        achatDao.save(achat);
-        return 1;
+        else {
+            for (String refproduit: produits) {
+                double prixunitaire=fournisseurService.findByProduitRef(refproduit).getPrixUnitaire();
+                Produit produit1=produitService.findByRef(refproduit);
+                double qte= (produit1.getQteSeuilAlert())*3;
+                achatproduitService.achatproduit(refproduit,magasin,qte,achat.getRef());
+                prixHt+=prixunitaire*qte;
+            }
+            prixTTc=prixHt*1.196;
+            achat.setPrixHt(prixHt);
+            achat.setPrixTtc(prixTTc);
+            achatDao.save(achat);
+            return 1;
+        }
+
     }
    //
     @Autowired
