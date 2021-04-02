@@ -36,9 +36,9 @@ public class AchatproduitProvided {
     public List<Achatproduit> findAll() {
         return achatproduitService.findAll();
     }
-      @PostMapping("refproduit/{refproduit}/refMagasin/{refMagasin}/qte/{qte}/refAchat/{refAchat}")
-    public int achatproduit(@RequestBody String refproduit,@RequestBody String refMagasin,@RequestBody double qte,@RequestBody  String refAchat) {
-        return achatproduitService.achatproduit(refproduit, refMagasin, qte, refAchat);
+      @PostMapping("/")
+    public int save(@RequestBody Achatproduit achatproduit)  {
+        return achatproduitService.save(achatproduit);
     }
 
     @Autowired

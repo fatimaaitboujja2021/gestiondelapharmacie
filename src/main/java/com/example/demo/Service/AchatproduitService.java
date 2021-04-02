@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
+
 @Service
 public class AchatproduitService {
 
@@ -22,54 +23,56 @@ public class AchatproduitService {
     public Achatproduit findByProduitRefAndAchatRef(String refProduit, String ref) {
         return achatproduitDao.findByProduitRefAndAchatRef(refProduit, ref);
     }
-@Transactional
+
+    @Transactional
     public int deleteByProduitRefAndAchatRef(String refProduit, String ref) {
-       Produit produit=produitService.findByRef(refProduit);
-       Achat achat=achatService.findByRef(ref);
-       Achatproduit achatproduit=findByProduitRefAndAchatRef(produit.getRef(),achat.getRef());
-       Magasin magasin=magasinService.findByReference(achatproduit.getMagasin().getReference());
-       Stock stock=stockService.findByMagasinReferenceAndProduitRef(magasin.getReference(),refProduit);
-       if (achat!=null){
-           if (achatproduit!=null)
-           {
-               //  achat.setPrixHt(achat.getPrixHt()-achatproduit.getPrixUnitaire()*achatproduit.getQte());
-               stock.setQte(stock.getQte()-achatproduit.getQte());
+        Produit produit = produitService.findByRef(refProduit);
+        Achat achat = achatService.findByRef(ref);
+        Achatproduit achatproduit = findByProduitRefAndAchatRef(produit.getRef(), achat.getRef());
+        Magasin magasin = magasinService.findByReference(achatproduit.getMagasin().getReference());
+        Stock stock = stockService.findByMagasinReferenceAndProduitRef(magasin.getReference(), refProduit);
+        if (achat != null) {
+            if (achatproduit != null) {
+                //  achat.setPrixHt(achat.getPrixHt()-achatproduit.getPrixUnitaire()*achatproduit.getQte());
+                stock.setQte(stock.getQte() - achatproduit.getQte());
 
-       }
+            }
 
-       }
+        }
 
-    return achatproduitDao.deleteByProduitRefAndAchatRef(refProduit, ref);
-}
+        return achatproduitDao.deleteByProduitRefAndAchatRef(refProduit, ref);
+    }
 
 
     public List<Achatproduit> findAll() {
         return achatproduitDao.findAll();
     }
 
-    public int  achatproduit(String refproduit,String refMagasin,double qte,String refAchat) {
-    Produit produit=produitService.findByRef(refproduit);
-    Magasin magasin =magasinService.findByReference(refMagasin);
-    Achat achat=achatService.findByRef(refAchat);
-    Stock stock=stockService.findByMagasinReferenceAndProduitRef(refMagasin,refproduit);
-    double prixunitaire=fournisseurService.findByProduitRef(produit.getRef()).getPrixUnitaire();
-    Achatproduit achatproduit=findByProduitRefAndAchatRef(refproduit,refAchat);
-        if(achatproduit==null)
-        return -2;
-    else {
-        Achatproduit achatproduit1=new Achatproduit();
-        achatproduit1.setAchat(achat);
-        achatproduit1.setMagasin(magasin);
-        achatproduit1.setProduit(produit);
-        achatproduit1.setQte(qte);
-        achatproduit1.setPrixUnitaire(prixunitaire);
-        achatproduit1.setPrixTotal(prixunitaire*qte);
-        achatproduitDao.save(achatproduit1);
-        stock.setQte(qte+stock.getQte());
-        return 1;
-    }
+
+    public int save(Achatproduit achatproduit) {
+        Produit produit = produitService.findByRef(achatproduit.getProduit().getRef());
+        Magasin magasin = magasinService.findByReference(achatproduit.getMagasin().getReference());
+        Achat achat = achatService.findByRef(achatproduit.getAchat().getRef());
+        Stock stock = stockService.findByMagasinReferenceAndProduitRef(magasin.getReference(), produit.getRef());
+        double prixunitaire = achatproduit.getPrixUnitaire();
+        if (findByProduitRefAndAchatRef(produit.getRef(), achat.getRef()) != null) {
+            return -1;
+        } else {
+            achatproduit = new Achatproduit();
+            achatproduit.setAchat(achat);
+            achatproduit.setMagasin(magasin);
+            achatproduit.setProduit(produit);
+            achatproduit.setQte(achatproduit.getQte());
+            achatproduit.setPrixUnitaire(prixunitaire);
+            achatproduit.setPrixTotal(prixunitaire * achatproduit.getQte());
+            achatproduitDao.save(achatproduit);
+            stock.setQte(achatproduit.getQte()+ stock.getQte());
+            return 1;
+        }
+
 
     }
+
     @Autowired
     private StockService stockService;
     @Autowired
@@ -82,5 +85,6 @@ public class AchatproduitService {
     private AchatService achatService;
     @Autowired
     private FournisseurService fournisseurService;
+
 
 }
