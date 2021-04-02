@@ -1,6 +1,7 @@
 package com.example.demo.bean;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Vente {
@@ -11,7 +12,18 @@ public class Vente {
     private Client client;
     private double prixHt;
     private double prixTtc;
+    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "vente")
+    private List<VenteProduit> venteProduits;
 
+
+    public List<VenteProduit> getVenteProduits() {
+        return venteProduits;
+    }
+
+    public void setVenteProduits(List<VenteProduit> venteProduits) {
+        this.venteProduits = venteProduits;
+    }
     public long getId() {
         return id;
     }
@@ -51,4 +63,5 @@ public class Vente {
     public void setPrixTtc(double prixTtc) {
         this.prixTtc = prixTtc;
     }
+
 }

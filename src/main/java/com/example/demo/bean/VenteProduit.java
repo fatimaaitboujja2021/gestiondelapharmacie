@@ -1,5 +1,4 @@
 package com.example.demo.bean;
-import com.example.demo.bean.Produit;
 
 import javax.persistence.*;
 
@@ -12,6 +11,16 @@ public class VenteProduit {
     @ManyToOne
     private Vente vente;
     private double qte;
+
+    public double getPrix() {
+        return prix;
+    }
+
+    public void setPrix(double prix) {
+        this.prix = prix;
+    }
+
+    private double prix;
     @ManyToOne
     private Magasin magasin;
 
@@ -54,4 +63,5 @@ public class VenteProduit {
     public void setMagasin(Magasin magasin) {
         this.magasin = magasin;
     }
+
 }

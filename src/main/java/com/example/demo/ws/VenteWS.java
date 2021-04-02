@@ -4,7 +4,6 @@ package com.example.demo.ws;
 import com.example.demo.Service.VenteService;
 import com.example.demo.bean.Vente;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,7 +31,7 @@ public class VenteWS {
     }
 
     @PostMapping("/")
-    public int save(@RequestBody Vente vente) {
+    public Vente save(@RequestBody Vente vente) {
         return venteService.save(vente);
     }
 
