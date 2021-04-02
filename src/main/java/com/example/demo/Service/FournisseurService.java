@@ -10,6 +10,7 @@ import java.util.List;
 @Service
 public class FournisseurService {
 
+
     public Fournisseur findByRef(String Ref) {
         return fournisseurDao.findByRef(Ref);
     }
@@ -18,16 +19,10 @@ public class FournisseurService {
         return fournisseurDao.deleteByRef(Ref);
     }
 
+
+
     public List<Fournisseur> findAll() {
         return fournisseurDao.findAll();
-    }
-
-    public Fournisseur findByProduitRef(String refproduit) {
-        return fournisseurDao.findByProduitRef(refproduit);
-    }
-
-    public int deleteByProduitRef(String refProduit) {
-        return fournisseurDao.deleteByProduitRef(refProduit);
     }
 
     public int save(Fournisseur fournisseur) {

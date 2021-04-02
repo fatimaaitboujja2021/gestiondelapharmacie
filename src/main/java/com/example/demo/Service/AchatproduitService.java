@@ -54,7 +54,6 @@ public class AchatproduitService {
         Magasin magasin = magasinService.findByReference(achatproduit.getMagasin().getReference());
         Achat achat = achatService.findByRef(achatproduit.getAchat().getRef());
         Stock stock = stockService.findByMagasinReferenceAndProduitRef(magasin.getReference(), produit.getRef());
-        double prixunitaire = achatproduit.getPrixUnitaire();
         if (findByProduitRefAndAchatRef(produit.getRef(), achat.getRef()) != null) {
             return -1;
         } else {
@@ -63,10 +62,10 @@ public class AchatproduitService {
             achatproduit.setMagasin(magasin);
             achatproduit.setProduit(produit);
             achatproduit.setQte(achatproduit.getQte());
-            achatproduit.setPrixUnitaire(prixunitaire);
-            achatproduit.setPrixTotal(prixunitaire * achatproduit.getQte());
+            achatproduit.setPrixUnitaire(achatproduit.getPrixUnitaire());
+            achatproduit.setPrixTotal(achatproduit.getPrixUnitaire()* achatproduit.getQte());
             achatproduitDao.save(achatproduit);
-            stock.setQte(achatproduit.getQte()+ stock.getQte());
+            stock.setQte(achatproduit.getQte() + stock.getQte());
             return 1;
         }
 
