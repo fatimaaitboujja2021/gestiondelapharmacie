@@ -13,17 +13,10 @@ public class Produit {
     private String libelle;
     private String type;
     private String  ref;
-    @ManyToOne
-    private Stock stock;
 
 
-    public Stock getStock() {
-        return stock;
-    }
 
-    public void setStock(Stock stock) {
-        this.stock = stock;
-    }
+
 
     public double getQteDeffectueuse() {
         return qteDeffectueuse;

@@ -1,6 +1,7 @@
 package com.example.demo.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,17 +15,8 @@ public class Pharmacie {
     private String libelle;
     @ManyToOne
     private Rue rue;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany
-    private List<Magasin> magasin;
 
-    public List<Magasin> getMagasin() {
-        return magasin;
-    }
 
-    public void setMagasin(List<Magasin> magasin) {
-        this.magasin = magasin;
-    }
 
     public Rue getRue() {
         return rue;

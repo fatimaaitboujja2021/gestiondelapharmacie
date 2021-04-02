@@ -57,19 +57,13 @@ public class PharmacieService {
         if(rue==null){
             return -2;
         }
+
         pharmacie.setRue(rue);
         pharmacieDao.save(pharmacie);
-        saveMagasin(pharmacie, pharmacie.getMagasin());
-        List<Magasin> magasin=magasinService.findByPharmaciereference(pharmacie.getReference());
-        pharmacie.setMagasin(magasin);
         return 1;
     }
 
-    private void saveMagasin(Pharmacie pharmacie, List<Magasin> magasinList) {
-        for (Magasin magasin :magasinList) {
-            magasinService.save(magasin);
-        }
-    }
+
 
     @Autowired
     RueService rueService;

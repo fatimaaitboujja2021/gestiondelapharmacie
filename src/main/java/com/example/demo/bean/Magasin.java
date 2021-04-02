@@ -1,6 +1,8 @@
 
 package com.example.demo.bean;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -12,7 +14,8 @@ public class Magasin {
     private Long id;
     private String reference;
     private String adresse;
-    @OneToMany
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy ="magasin")
     private List<Stock> stock;
     @ManyToOne
     private Pharmacie pharmacie;

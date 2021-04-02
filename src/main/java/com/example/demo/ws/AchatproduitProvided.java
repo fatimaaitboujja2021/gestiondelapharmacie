@@ -37,7 +37,7 @@ public class AchatproduitProvided {
         return achatproduitService.findAll();
     }
       @PostMapping("refproduit/{refproduit}/refMagasin/{refMagasin}/qte/{qte}/refAchat/{refAchat}")
-    public int achatproduit(@PathVariable String refproduit,@PathVariable  String refMagasin,@PathVariable  double qte,@PathVariable  String refAchat) {
+    public int achatproduit(@RequestBody String refproduit,@RequestBody String refMagasin,@RequestBody double qte,@RequestBody  String refAchat) {
         return achatproduitService.achatproduit(refproduit, refMagasin, qte, refAchat);
     }
 

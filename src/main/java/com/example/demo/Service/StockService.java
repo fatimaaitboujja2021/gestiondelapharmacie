@@ -81,17 +81,18 @@ public class StockService {
     public int savestockage(Stock stockage) {
         Produit produit = produitService.findByRef(stockage.getProduit().getRef());
         Magasin magasin = magasinService.findByReference(stockage.getMagasin().getReference());
-        Stock stockBean = findByMagasinReferenceAndProduitRef(stockage.getProduit().getRef(), stockage.getMagasin().getReference());
-        if(produit ==null || magasin ==null) return -1;
+        Stock stockBean = findByMagasinReferenceAndProduitRef(stockage.getMagasin().getReference(), stockage.getProduit().getRef());
         if(stockBean==null){
             Stock myStockBean= new Stock();
             myStockBean.setProduit(produit);
             myStockBean.setMagasin(magasin);
             myStockBean.setQte(stockage.getQte());
+            myStockBean.setQteDeffectueuse(stockage.getQteDeffectueuse());
             stockDao.save(myStockBean);
             return 1;
         }else{
             stockBean.setQte(stockBean.getQte()+stockage.getQte());
+            stockBean.setQteDeffectueuse(stockBean.getQteDeffectueuse()+stockage.getQteDeffectueuse());
             stockDao.save(stockBean);
             return 2;
         }
