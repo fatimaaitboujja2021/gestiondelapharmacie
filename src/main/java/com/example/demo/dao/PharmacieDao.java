@@ -12,12 +12,12 @@ import java.util.List;
 
 @Repository
 public interface PharmacieDao extends JpaRepository<Pharmacie,Long> {
-    Pharmacie findByreference(String ref);
+    Pharmacie findByReference(String ref);
     @Query("select a from Pharmacie a where a.libelle like '%x%'")
     List<Pharmacie> chercherPharmacieparLibelle(@Param("x") String motcle);
 
     List <Pharmacie> findByLibelle(String libelle);
     Pharmacie findByLibelleAndReference(String libelle,String ref);
     List <Pharmacie> findAll();
-    int deleteByreference(String ref);
+    int deleteByReference(String ref);
 }

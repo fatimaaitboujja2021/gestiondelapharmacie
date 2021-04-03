@@ -25,25 +25,25 @@ public class ProduitProvided {
         return produitService.save(produit);
     }
 
-    @DeleteMapping("/refdpr/{refdpr}")
+    @DeleteMapping("/refdpr/{ref}")
     public int deleteByRef(@PathVariable String ref) {
         return produitService.deleteByRef(ref);
     }
 
-    @GetMapping("/refpr/{refpr}")
+    @GetMapping("/refpr/{ref}")
     public Produit findByRef(@PathVariable String ref) {
         return produitService.findByRef(ref);
     }
 
-    @GetMapping("/reftype/{reftype}")
+    @GetMapping("/reftype/{type}")
     public List<Produit> findByType(@PathVariable String type) {
         return produitService.findByType(type);
     }
-    @GetMapping("/reflibtype/{reflibtype}")
+    @GetMapping("/reflibtype/{Libelle}/reftype/{type}")
     public Produit findByLibelleAndType(@PathVariable String Libelle,@PathVariable  String type) {
         return produitService.findByLibelleAndType(Libelle, type);
     }
-    @DeleteMapping("/refdlib/{refdlib}")
+    @DeleteMapping("/refdlib/{libelle}")
     public int deleteByLibelle(@PathVariable String libelle) {
         return produitService.deleteByLibelle(libelle);
     }

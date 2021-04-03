@@ -14,22 +14,13 @@ public class Magasin {
     private Long id;
     private String reference;
     private String adresse;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy ="magasin")
-    private List<Stock> stock;
     @ManyToOne
     private Pharmacie pharmacie;
     @ManyToOne
     private Rue rue;
 
 
-    public List<Stock> getStock() {
-        return stock;
-    }
 
-    public void setStock(List<Stock> stock) {
-        this.stock = stock;
-    }
 
     public Rue getRue() {
         return rue;

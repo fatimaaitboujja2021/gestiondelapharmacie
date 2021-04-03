@@ -13,17 +13,16 @@ public class Pharmacie {
     private Long id;
     private String reference;
     private String libelle;
-    @ManyToOne
-    private Rue rue;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "pharmacie")
+    private List<Magasin>magasin;
 
-
-
-    public Rue getRue() {
-        return rue;
+    public List<Magasin> getMagasin() {
+        return magasin;
     }
 
-    public void setRue(Rue rue) {
-        this.rue = rue;
+    public void setMagasin(List<Magasin> magasin) {
+        this.magasin = magasin;
     }
 
     public Long getId() {

@@ -6,6 +6,7 @@ import com.example.demo.bean.Produit;
 import com.example.demo.bean.Stock;
 import com.example.demo.dao.OperationStockDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
@@ -18,59 +19,42 @@ public class OperationStockService {
     private MagasinService magasinService;
     @Autowired
     private ProduitService produitService;
-    public List<OperationStock> findByMagasinDestinationReference(String magasindestinationreference) {
-        return operationStockDao.findByMagasinDestinationReference(magasindestinationreference);
-    }
 
-    public List<OperationStock> findByMagasinSourceReference(String magasinsourcereference) {
-        return operationStockDao.findByMagasinSourceReference(magasinsourcereference);
-    }
-
-    public List<OperationStock> findByMagasinDestinationReferenceAndMagasinSourceReference(String magasindestinationreference, String magasinsourcereference) {
-        return operationStockDao.findByMagasinDestinationReferenceAndMagasinSourceReference(magasindestinationreference, magasinsourcereference);
-    }
-
-    public List<OperationStock> findByProduitRef(String refProduit) {
-        return operationStockDao.findByProduitRef(refProduit);
-    }
-
-    public List<OperationStock> findByMagasinDestinationReferenceAndMagasinSourceReferenceAndProduitRef(String magasindestinationreference, String magasinsourcereference, String refProduit) {
-        return operationStockDao.findByMagasinDestinationReferenceAndMagasinSourceReferenceAndProduitRef(magasindestinationreference, magasinsourcereference, refProduit);
+    public List<OperationStock> trouve(String refproduit, String refmagasin) {
+        return operationStockDao.trouve(refproduit, refmagasin);
     }
 
     public List<OperationStock> findAll() {
         return operationStockDao.findAll();
     }
 
-    public int transferer(String refSource, String refDestination, String refProduit, double qte) {
-        Magasin magasinSource = magasinService.findByReference(refSource);
-        Magasin magasinDestination = magasinService.findByReference(refDestination);
-        Produit produit = produitService.findByRef(refProduit);
+    public int transferer(OperationStock operationStock) {
+        Magasin magasinSource = magasinService.findByReference(operationStock.getMagasinSource().getReference());
+        Magasin magasinDestination = magasinService.findByReference(operationStock.getMagasinDestination().getReference());
+        Produit produit = produitService.findByRef(operationStock.getProduit().getRef());
 
         if (produit == null || magasinSource == null || magasinDestination == null)
             return -1;
 
-        Stock stockSource = stokage.findByMagasinReferenceAndProduitRef(refSource, refProduit);
+        Stock stockSource = stokage.findByMagasinReferenceAndProduitRef(operationStock.getMagasinSource().getReference(), operationStock.getProduit().getRef());
 
         if (stockSource == null) {
             return -2;
         } else {
-            Stock stockDestination = stokage.findByMagasinReferenceAndProduitRef(refSource, refProduit);
+            Stock stockDestination = stokage.findByMagasinReferenceAndProduitRef(operationStock.getMagasinDestination().getReference(), operationStock.getProduit().getRef());
             if (stockDestination == null) {
-
                 Stock myStock = new Stock();
                 myStock.setMagasin(magasinDestination);
                 myStock.setProduit(produit);
-                myStock.setQte(qte);
+                myStock.setQte(operationStock.getQte());
                 stokage.savestockage(myStock);
                 return 1;
             } else {
-                stockDestination.setQte(stockDestination.getQte() + qte);
-                stokage.savestockage(stockDestination);
-                stockSource.setQte(stockSource.getQte()-qte);
+                stockDestination.setQte(stockDestination.getQte() + operationStock.getQte());
+                stockSource.setQte(stockSource.getQte()-operationStock.getQte());
                 OperationStock transport=new OperationStock();
-                transport.setQte(qte);
-                transport.setDescrition("transport "+qte+" de "+refProduit+" de magasin "+refSource+" a le magasin "+refDestination);
+                transport.setQte(operationStock.getQte());
+                transport.setDescrition("transport "+operationStock.getQte()+" de "+operationStock.getProduit().getRef()+" de magasin "+operationStock.getMagasinSource().getReference()+" a le magasin "+operationStock.getMagasinDestination().getReference());
                 transport.setProduit(produit);
                 transport.setMagasinDestination(magasinDestination);
                 transport.setMagasinSource(magasinSource);
@@ -80,6 +64,11 @@ public class OperationStockService {
 
         }
     }
+
+    public List<OperationStock> lookfor(String refproduit, String refmagasin) {
+        return operationStockDao.lookfor(refproduit, refmagasin);
+    }
+
     public int soustractionDeLaquantiteDefectueuse(Stock stock){
         if(stock==null){
             return -2;

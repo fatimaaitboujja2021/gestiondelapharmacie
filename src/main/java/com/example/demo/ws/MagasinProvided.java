@@ -16,36 +16,36 @@ MagasinProvided {
         return magasinService.save(magasin);
     }
 
-    @GetMapping("/refmphar/{refmphar}")
+    @GetMapping("/refmphar/{ref}/refmag/{reference}")
     public Magasin findByReferenceAndPharmaciereference(@PathVariable String ref, @PathVariable String reference) {
         return magasinService.findByReferenceAndPharmaciereference(ref, reference);
     }
 
 
-    @DeleteMapping("/refm/{refm}")
+    @DeleteMapping("/refmd/{ref}")
     public int deleteByReference(@PathVariable String ref) {
         return magasinService.deleteByReference(ref);
     }
 
-    @GetMapping("/refmd/{refmd}")
+    @GetMapping("/refmd/{ref}")
     public Magasin findByReference(@PathVariable String ref) {
         return magasinService.findByReference(ref);
     }
-    @DeleteMapping("/refpd/{refpd}")
+    @DeleteMapping("/refpd/{ref}")
     public int deleteByPharmacieReference(@PathVariable String ref) {
         return magasinService.deleteByPharmacieReference(ref);
     }
-    @GetMapping("/refp/{refp}")
+    @GetMapping("/refp/{ref}")
     public List<Magasin> findByPharmacieRefrence(@PathVariable String ref) {
         return magasinService.findByPharmaciereference(ref);
     }
-    @GetMapping("/refma/{refma}")
+    @GetMapping("/refma/{mc}")
     public List<Magasin> chercherMagasinparAdresse( @PathVariable String mc) {
         return magasinService.chercherMagasinparAdresse(mc);
     }
 
     @GetMapping("/adresse/{adresse}")
-    public Magasin findByAdresse(@PathVariable String adresse) {
+    public List<Magasin> findByAdresse(@PathVariable String adresse) {
         return  magasinService.findByAdresse(adresse);
     }
 

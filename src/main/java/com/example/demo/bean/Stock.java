@@ -15,7 +15,6 @@ public class Stock implements Serializable {
     private Produit produit;
     @ManyToOne
     private Magasin magasin;
-    //methode
 
     public Long getId() {
         return id;

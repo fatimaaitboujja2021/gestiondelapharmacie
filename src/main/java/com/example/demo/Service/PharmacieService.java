@@ -20,8 +20,8 @@ public class PharmacieService {
     @Autowired
     private MagasinService magasinService;
 
-    public Pharmacie findByreference(String ref) {
-        return pharmacieDao.findByreference(ref);
+    public Pharmacie findByReference(String ref) {
+        return pharmacieDao.findByReference(ref);
     }
 
     public List<Pharmacie> findByLibelle(String libelle) {
@@ -31,6 +31,7 @@ public class PharmacieService {
     public Pharmacie findByLibelleAndReference(String libelle, String ref) {
         return pharmacieDao.findByLibelleAndReference(libelle, ref);
     }
+
     public List<Pharmacie> chercherPharmacieparLibelle(String mc) {
         return pharmacieDao.chercherPharmacieparLibelle(mc);
     }
@@ -41,33 +42,34 @@ public class PharmacieService {
 
 
     @Transactional
-    public int deleteByreference(String ref) {
-        int resultmagasin=magasinService.deleteByPharmacieReference(ref);
-        int resultephamacie=pharmacieDao.deleteByreference(ref);
-        return resultephamacie+resultmagasin;
+    public int deleteByReference(String ref) {
+        int resultmagasin = magasinService.deleteByPharmacieReference(ref);
+        int resultephamacie = pharmacieDao.deleteByReference(ref);
+        return resultephamacie + resultmagasin;
 
     }
 
     public int save(Pharmacie pharmacie) {
-        Pharmacie foundedPharmacie =findByreference(pharmacie.getReference());
-        if(foundedPharmacie != null){
+        Pharmacie foundedPharmacie = findByReference(pharmacie.getReference());
+        if (foundedPharmacie != null) {
             return -1;
+        } else {
+            pharmacieDao.save(pharmacie);
+            saveMagasin(pharmacie, pharmacie.getMagasin());
+            return 1;
         }
-        Rue rue =rueService.findByCode(pharmacie.getRue().getCode());
-        if(rue==null){
-            return -2;
-        }
-
-        pharmacie.setRue(rue);
-        pharmacieDao.save(pharmacie);
-        return 1;
     }
 
+    private void saveMagasin(Pharmacie pharmacie, List<Magasin> magasinList) {
+        for (Magasin magasin : magasinList) {
+            magasin.setPharmacie(pharmacie);
 
+            magasinService.save(magasin);
+        }
+    }
 
     @Autowired
     RueService rueService;
-
 
 
 }

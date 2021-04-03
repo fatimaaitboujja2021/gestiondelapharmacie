@@ -20,24 +20,24 @@ public class PharmacieProvided {
         return pharmacieService.save(pharmacie);
     }
 
-    @GetMapping("/refpl/{refpl}")
+    @GetMapping("/refpl/{mc}")
     public List<Pharmacie> chercherPharmacieparLibelle(@PathVariable String mc) {
         return pharmacieService.chercherPharmacieparLibelle(mc);
     }
-    @GetMapping("/reflr/{reflr}")
+    @GetMapping("libelle/{libelle}/reflr/{ref}")
     public Pharmacie findByLibelleAndReference(@PathVariable String libelle, @PathVariable String ref) {
         return pharmacieService.findByLibelleAndReference(libelle, ref);
     }
 
-    @DeleteMapping("/refpd/{refpd}")
-    public int deleteByreference(@PathVariable String ref) {
-        return pharmacieService.deleteByreference(ref);
+    @DeleteMapping("/refpd/{ref}")
+    public int deleteByReference(@PathVariable String ref) {
+        return pharmacieService.deleteByReference(ref);
     }
 
 
-    @GetMapping("/refp/{refp}")
+    @GetMapping("/refp/{ref}")
     public Pharmacie findByRefPharmacie(@PathVariable String ref) {
-        return pharmacieService.findByreference(ref);
+        return pharmacieService.findByReference(ref);
     }
 
 
