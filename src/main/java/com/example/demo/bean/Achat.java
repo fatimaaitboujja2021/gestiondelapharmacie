@@ -10,8 +10,6 @@ public class Achat {
     private String ref;
     private double prixHt;
     private double prixTtc;
-    @ManyToOne
-    private  Fournisseur fournisseur;
 
 
     public Long getId() {

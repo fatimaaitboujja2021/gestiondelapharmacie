@@ -4,6 +4,7 @@ import com.example.demo.bean.Fournisseur;
 import com.example.demo.dao.FournisseurDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
@@ -14,7 +15,7 @@ public class FournisseurService {
     public Fournisseur findByRef(String Ref) {
         return fournisseurDao.findByRef(Ref);
     }
-
+@Transactional
     public int deleteByRef(String Ref) {
         return fournisseurDao.deleteByRef(Ref);
     }

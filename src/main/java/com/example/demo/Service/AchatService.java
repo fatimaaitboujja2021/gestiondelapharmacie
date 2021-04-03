@@ -1,9 +1,6 @@
 package com.example.demo.Service;
 
-import com.example.demo.bean.Achat;
-import com.example.demo.bean.Achatproduit;
-import com.example.demo.bean.Magasin;
-import com.example.demo.bean.Produit;
+import com.example.demo.bean.*;
 import com.example.demo.dao.AchatDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,14 +33,22 @@ public class AchatService {
     }
 
 
-    public int save(Achat achat, List<Achatproduit> achatproduits) {
+    public int save(Achat achat) {
+        List<Achatproduit> achatproduits=achatproduitService.findByAchatRef(achat.getRef());
 
         if (findByRef(achat.getRef()) != null) {
             return -1;
         }else{
-            achatDao.save(achat);
+            Achat achat1=new Achat();
+
+            achat1.setRef(achat.getRef());
+            achat1.setPrixHt(achat.getPrixHt());
+            achat1.setPrixTtc(achat.getPrixTtc());
+            achatDao.save(achat1);
+
+
             for (Achatproduit achatproduit : achatproduits) {
-               achatproduit.setAchat(achat);
+               achatproduit.setAchat(achat1);
                achatproduitService.save(achatproduit);
             }
 
@@ -52,7 +57,7 @@ public class AchatService {
 
     }
 
-    //
+
     @Autowired
     private ProduitService produitService;
 

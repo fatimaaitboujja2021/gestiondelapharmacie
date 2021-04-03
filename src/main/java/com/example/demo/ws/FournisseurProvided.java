@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("Fournisseur-APi/fourniseur")
+@RequestMapping("gestion-pharmacie/fourniseur")
 public class FournisseurProvided {
     @Autowired
     FournisseurService fournisseurService;
