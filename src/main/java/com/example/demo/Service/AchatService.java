@@ -65,6 +65,5 @@ public class AchatService {
     private AchatproduitService achatproduitService;
     @Autowired
     private AchatDao achatDao;
-    @Autowired
-    private FournisseurService fournisseurService;
+
 }

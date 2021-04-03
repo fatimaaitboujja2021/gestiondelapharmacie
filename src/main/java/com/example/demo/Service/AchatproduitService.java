@@ -38,7 +38,7 @@ public class AchatproduitService {
         Magasin magasin = magasinService.findByReference(achatproduit.getMagasin().getReference());
         Achat achat = achatService.findByRef(achatproduit.getAchat().getRef());
         Stock stock = stockService.findByMagasinReferenceAndProduitRef(achatproduit.getMagasin().getReference(), achatproduit.getProduit().getRef());
-        if (findByProduitRefAndAchatRef(achatproduit.getProduit().getRef(), achat.getRef()) != null) {
+        if (findByProduitRef(achatproduit.getProduit().getRef())!=null) {
             return -1;
         } else {
             Achatproduit achatproduit1 = new Achatproduit();

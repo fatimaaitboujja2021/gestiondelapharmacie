@@ -12,16 +12,7 @@ public class Achatproduit {
     private Achat achat ;
     @ManyToOne
     private Magasin magasin;
-    @ManyToOne
-    private  Fournisseur fournisseur;
 
-    public Fournisseur getFournisseur() {
-        return fournisseur;
-    }
-
-    public void setFournisseur(Fournisseur fournisseur) {
-        this.fournisseur = fournisseur;
-    }
     private double qte;
     private double prixUnitaire;
     private double prixTotal;
