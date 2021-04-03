@@ -3,6 +3,7 @@ package com.example.demo.ws;
 
 import com.example.demo.Service.AchatService;
 import com.example.demo.bean.Achat;
+import com.example.demo.bean.Achatproduit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,12 +23,14 @@ public class AchatProvided {
         return achatService.deleteByRef(Ref);
     }
 
+    @GetMapping("/")
     public List<Achat> findAll() {
         return achatService.findAll();
     }
-    @PostMapping("magasin/{magasin}/produits/{produits}")
-    public int acheter(@RequestBody String magasin,@RequestBody List<String> produits) {
-        return achatService.acheter(magasin, produits);
+
+    @PostMapping("/")
+    public int save(@RequestBody Achat achat, @RequestBody  List<Achatproduit> achatproduits) {
+            return achatService.save(achat,achatproduits);
     }
 
     @Autowired

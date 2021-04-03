@@ -7,25 +7,6 @@ public class Fournisseur {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private double id;
     private String ref;
-    @OneToOne
-    private Produit produit;
-    private double prixUnitaire;
-
-    public Produit getProduit() {
-        return produit;
-    }
-
-    public void setProduit(Produit produit) {
-        this.produit = produit;
-    }
-
-    public double getPrixUnitaire() {
-        return prixUnitaire;
-    }
-
-    public void setPrixUnitaire(double prixUnitaire) {
-        this.prixUnitaire = prixUnitaire;
-    }
 
     public double getId() {
         return id;

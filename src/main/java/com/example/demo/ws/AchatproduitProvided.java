@@ -21,24 +21,26 @@ public class AchatproduitProvided {
     public List<Achatproduit> findByProduitRef(@PathVariable String ref) {
         return achatproduitService.findByProduitRef(ref);
     }
+
     @GetMapping("refProduit/{refProduit}/ref/{ref}")
-    public Achatproduit findByProduitRefAndAchatRef(@PathVariable String refProduit,@PathVariable  String ref) {
+    public Achatproduit findByProduitRefAndAchatRef(@PathVariable String refProduit, @PathVariable String ref) {
         return achatproduitService.findByProduitRefAndAchatRef(refProduit, ref);
     }
 
 
-
     @DeleteMapping("refProduit/{refProduit}/ref/{ref}")
-    public int deleteByProduitRefAndAchatRef(@PathVariable String refProduit,@PathVariable  String ref) {
+    public int deleteByProduitRefAndAchatRef(@PathVariable String refProduit, @PathVariable String ref) {
         return achatproduitService.deleteByProduitRefAndAchatRef(refProduit, ref);
     }
+
     @GetMapping("/")
     public List<Achatproduit> findAll() {
         return achatproduitService.findAll();
     }
-      @PostMapping("refproduit/{refproduit}/refMagasin/{refMagasin}/qte/{qte}/refAchat/{refAchat}")
-    public int achatproduit(@RequestBody String refproduit,@RequestBody String refMagasin,@RequestBody double qte,@RequestBody  String refAchat) {
-        return achatproduitService.achatproduit(refproduit, refMagasin, qte, refAchat);
+
+    @PostMapping("/")
+    public int save(@RequestBody Achatproduit achatproduit) {
+        return achatproduitService.save(achatproduit);
     }
 
     @Autowired
